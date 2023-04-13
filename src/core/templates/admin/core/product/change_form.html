@@ -1,0 +1,6 @@
+{% extends 'admin/change_form.html' %}
+
+{% block footer %}
+  {{ block.super }}
+  {% include 'admin/core/valid_message_origins.html' %}
+{% endblock %}

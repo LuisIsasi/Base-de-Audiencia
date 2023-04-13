@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# setup Python: create venv and pip install deps
+rm -rf /vagrant/.venv/audb
+/usr/local/bin/pyvenv /vagrant/.venv/audb
+source /vagrant/.venv/audb/bin/activate
+yes yes | pip install -r /vagrant/requirements.txt

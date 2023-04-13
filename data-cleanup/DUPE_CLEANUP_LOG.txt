@@ -1,0 +1,640 @@
+DONE: DELETED THESE DUPE PAIRS VIA THEIR UUIDS:
+
+    1gd2qb7i2xdwx@mail.styling1.com
+    21iuol1djaqly@mail.trashma1l.com
+    3doo4mp8iqu@mail1a.de
+    638uoig2q5d@yopmail.com
+    aa@a.com
+    add.me.bl.a.ck@gmail.com
+    axzqffzai5q@dontsendmespam.de
+    b@c.com
+    c@f.com
+    djsg3tmfxurkn@mail.trashma1l.com
+    fakeeee@teleworm.us
+    hiepewiq1agza@www.trashma1l.com
+    mjuiqyuuxulo0@mail.trashma1l.com
+    nh9lhnr2bk5lt@mail.trashma1l.com
+    rgbreldilzhyr@www.trashma1l.com
+    sjmicihalski@hotmaiol.com
+    ska4phbtyjp@trashmail.de
+    t9kpcr9m6eegc@trashma1l.com
+    xbkkopxajpmuw@www.trashma1l.com
+
+
+
+
+DELETED docs directly in MarkLogic (to prevent ST delete sync)
+
+
+    d6b3c2a7-8671-6e99-633a-6d574d03ad4ed3f7f5b8
+    f148eb70-e938-8483-b386-12bfeadc3d2bbe5160d3
+    05da886f-e8c0-15ef-7277-0060fc623cac96ad0264
+    95bb5145-4300-efc6-6c3d-17f3eae4f375b6e77bb0
+    a8c101f2-3fc2-02bc-97b9-dc06ff11591f7ed681b3
+    0639ac94-943b-0f14-456a-e3af78825d093e0baf16
+    deb68d60-c04d-b191-d6a0-447efabf00f0cbee52d7
+    4892c6ef-d042-5125-6d8f-a0600de760c58c0da08a
+    fc3778e1-ed60-8d97-85a7-99503bffe17a864f8799
+    dfa47daa-4c9d-d303-e6a7-8b8a425e90bf4cd3bf2b
+    897d5bf3-bbaf-6cbe-eb07-3def2d03e5298347e7de
+    262f4f33-f876-48de-ee1f-49fc896158dd622668bf
+    0eb2fac9-f4ba-6c2c-a1e9-66aaf18d94d8bddb02fb
+    c55d323c-9b06-90eb-b7ae-4447c91f8f55126bc402
+    63aafef1-6ba5-a07c-1caf-90e83f74b55b69a5c4b7
+    fcf58481-81a2-29a1-ec0d-b1d18f422b056dced47a
+    a5621c5f-c1ae-2e36-70a9-8b634b8c5fc42f6d13d2
+    10885674-3662-2180-4b01-43cc2f106239b5df0d75
+    bc64dae8-6235-65b7-32bc-71acdf26936920d5e555
+    5975569e-5824-de85-2f2c-7d3ac4b33b9d9a66e52e
+    ef2b02c5-ccb3-bcd2-6dbd-f5b68a571bdb0c0d323f
+    89d3695b-4608-fa6a-e94b-6eca301b4d602ab7fb0b
+    5ecf227c-0d7b-4320-ddbf-ac45249b2f07327fc203
+    caba95e9-ba3d-6e78-f981-aaeb0e8cf06178cd4acf
+    54a7c1b1-b0c3-edf2-2775-a826ea232c527aff0d22
+    c9613a57-03cd-323e-66bb-c395cb9607874c2ceb99
+    f8d65144-af35-2f32-d069-d4845df3f1d45fc1f223
+    f9c3b765-5348-030b-288b-248a1c95e5dfc36be242
+    a9e56775-d6f0-bd95-7764-632e29bf9c0b1306606a
+    1b1dddce-864b-c2e3-d7dd-24cffea8ab3ad9ec84a0
+    dee1c720-cccc-4256-d6b8-31494777a434997ea313
+    12b809dd-bd70-59a0-aa33-183c9125acc092c79cf2
+    cab1b32c-2072-e19d-c4bc-f202179a9f206a75b9da
+    27a7f432-efdd-f584-a003-99df48ec26811e2b8631
+    655cdf31-7998-b71c-4f24-081c6e650f6c0e2ef8c6
+    0a6a5c49-d0ea-f5ab-8035-f3a9530cc9151df3cc66
+    f64da1c1-ff8f-c774-a234-e90b32c2d4f48b7cd126
+    a250d46b-73a7-0a6a-0d6b-25a069b2be963836031c
+    972f275e-c561-f057-6a83-583ea1047acfde34bc25
+    755756a8-3dde-7be0-c408-c7804a4e824781ae775c
+    48bde0b7-8fa6-bad0-bad3-fcce459b151fa26cd541
+    5e33170b-8b48-e4b9-2f03-70e31bc29e988cfc01c0
+    6fa7894a-4287-684a-49b7-aa0b80d50ef5e9fb8361
+    8744b450-14f1-bfca-cfab-97ec5b1e161d2b793dbe
+    d4e04a91-a867-332d-d920-3cd90338ccd2c166e46b
+    b1598301-03eb-02e7-958f-75a2e964f804e84898cf
+    6265ad5f-f101-2ee1-0a52-71e8fa432bfd93b195ba
+    9c9653b0-77bd-a4ff-3de0-6f23e544ab7b9a585a88
+    726b8815-2638-0fd0-a630-32dde799b36f5832b656
+    017a1b6e-891b-b318-8e17-c239fc70c763ad22954f
+    8a3b9551-a17d-cd65-3ca9-66d32c4a3c24c1fd64f4
+    6c69e400-6909-29aa-1c50-d948e2ba4f0bff4066a0
+    bddacb5d-1400-0d6e-d23c-e6d3d68540ca5e4afaa2
+    3e1ec53b-6a56-f0b2-0f9c-550e8d4bdc55633e8314
+    e9cb003a-c977-069a-2ba5-6fa420c72e67e166af5a
+    8811658e-be09-2726-f5e9-847458617b2e67850e68
+    9aeceef5-69f5-d11a-2331-5a6b4d4bcd9749aa3ec7
+    f5ca4315-7bdc-bb63-f49b-58a72667e83685586c67
+    bed0f336-5e28-5f2e-ff73-88167a9801ebfbba295c
+    fe03f474-65e2-003d-dfe5-a69cbcfadffe26df0d9f
+    af2fbee3-5730-4797-2670-b0210a94e0df41fb57e1
+    64803a43-b651-bb3a-7a1a-4736eee37efb97be5931
+    8904b1ec-6034-542f-a676-74820bdc3bd96756269c
+    c3fcd202-e596-ac9a-d9d3-e10b37b98227a9ffd469
+    41538cbc-9d45-dcbd-cf72-ac7bd737953c2dea73f2
+    a0a4df8b-c729-b810-10a7-31b25265f8c4c15bed1b
+    b3a9dfca-d59d-ff88-e96e-4e8985cb3609eb8e67a3
+    701e7b6b-9a53-d416-95e2-8b0dde2a1ed4c8d0165e
+    fc8da8c0-9810-afe9-1e67-2df4d3bd3395aaf0a76e
+    91eb02ba-ada9-eb8a-a038-e88fc7eac81cc5e081b1
+    9d478ad4-39de-8477-a00e-94b79ced8ac085c84403
+    c8ad17d2-a3e9-6c30-6427-652f3ffbf2dbccc5f200
+    04f9c6f1-f84d-ba79-cd90-c6b90b9ffde493642508
+    74f20116-7277-028a-9895-9dc533071e4cc701b4ea
+    0b8253ad-6e63-3f4f-2ac4-77faa917398138c7a811
+    e409c709-f951-d592-21c1-15303f50f6c41833371e
+    d44c0d1e-5aa8-c2ce-912a-49b741806e24299750ef
+    8ed0e11d-243c-7a36-9586-fb5cc0babd9ae37609a0
+    1da065ee-cda2-8f5d-848a-ba003b2d1c3a1473ae21
+    16684913-baec-00be-37c2-e5a22b8014b047bd7d58
+    3c8b8251-247f-de77-06f6-7b4869f19b81cc18e0a7
+    40deb786-7a65-fc28-43cc-140394e49debdb105046
+    873bc87d-253b-634d-4fa2-1415c5a8711cd189a5de
+    c00d2dfb-8768-ce7a-2294-cacaf1edc983f6f05aa0
+    6da80c71-ac08-da98-ef57-bcdb0be23f1ca3f3981c
+    e8dc83b1-6652-9588-a590-e70c60baae4fb2701962
+    93b80aea-74c5-4cbc-41ef-a862c9cd7f9c509e7c05
+    7791496b-f47b-a4ca-28d4-5ebf055a957dcc978e27
+    49b10bd5-acac-6bd4-ea0b-5885d6dcf51e9604112b
+    8c4b67eb-06c1-c892-4086-db6fc21d9abe272cf31c
+    0a917b0e-a7aa-1631-2278-d3dba54cf0d9a1695d1f
+    999d1dbd-53ad-1a78-2696-84a64b0b54168c0f3a93
+    7eccf191-241c-7bc3-a9db-f7767fe0fbafcee71698
+    331f8cca-b027-469b-6638-261c0cf26cce9a8cf0a0
+    ff951394-01ca-96af-7cec-fef5ab7f915e5bdffafb
+    db7c6da2-08f2-d42f-eb00-63e7edc51a727effdfbd
+    03d043b3-f120-f8ef-8556-e2f8d697657c9ed7dafb
+    8fc8bdf2-6af1-6e38-b0ba-11be651b07a3ee550018
+    4f8382e6-cf8f-0ed0-056a-1cf2c9e33f233668d482
+    8d496257-a549-4b00-b703-155ab704ab6cf9a856f9
+    fbbf4665-65ff-657a-88dc-d18da075150a17119895
+    ca5da2da-dbf1-43ad-1f1a-513ce1a4af86b38edbf4
+    fa5209c8-2543-ed1b-bb68-750c730cdcbcfe125813
+    c1e72859-0463-ff57-4d92-e6d03a57c3bf08880610
+    eec68521-a0ab-8c6e-9a19-c580c1a35990d31be580
+    0bd16200-3a77-9374-9eee-a1066755970be2a6d620
+    bf6d3a58-862c-419e-82fe-a28b4c4e020207361daa
+    1f4e56ef-174c-6723-6bac-bda2fb7ea7d1f9079459
+    dc9eeafc-7a42-e9d4-5fcd-a0b8ddbcfa2f4ce7e1ae
+    7ffa6f43-a722-da27-c9f4-d166595c3c08d94df91c
+    aa7f7850-132f-ebed-4946-04c3da709d51dab72bfc
+    311c7718-077c-d727-47fe-46e24a397bd86d9fed34
+    7b8e909f-51af-4f5d-a0eb-731fe67ba98e
+    3c1b05fc-f612-16a9-3bee-f418421272b270c397c3
+    89781e21-ed38-0b67-c6cb-23cc312d728ef3642bfb
+    c808f43d-2e3c-f9fe-09cd-f0a600856ca1feece58e
+    9bcdd740-a58b-dd11-12cb-3109960c6f3ea2634a87
+    03db7d4d-34f7-9d0c-82f7-776e379f5ee8988a9bac
+    814b2a5b-f1c6-1fce-a433-4b525e569363750580af
+    2ef30194-4579-fd85-83f3-d80d5c7d78cd2c0a2294
+    0947977d-9395-4c15-b611-7ad16d5cdf3b
+    57e54538-a9c7-6629-07b9-708cce1fea281095164c
+    f7177327-d164-a2c1-1e63-1867f50684e7e6651557
+    db0f4646-c4b7-539a-7ddd-f8879151cb058a510379
+    391bda7f-d4f0-4a9a-e94c-b3f763f8e60b7e039961
+    ce95aa41-df13-77d7-95e8-dc8f048ac3b1b024333c
+    fbfcaa64-4467-81a8-cf7b-02695431830f727be198
+    70a3cc64-b2eb-ea3a-3fb2-457d30bc8004fa0e3175
+    f5e4bab2-f0ce-3853-bae9-773b3a7aca398556360b
+    8a95feb2-ff63-d2a1-9d46-f24e53fcd27d6042b4de
+    9c244e1b-4d4f-247f-b427-c711e5a32d0d858c6df3
+    a41192db-38df-d01d-2a6a-e9a95fbadf65a7a7faa7
+    e8dc2342-1fb7-0252-1e9b-1a922554112e692cb947
+    544cd8f3-02c8-2163-6a2e-463ebd43bf76d9a97e61
+    6829c8c9-38bf-a3da-3512-23e368eab6415ab3176c
+    2c28c99b-f490-e8c5-29ee-c186f4abbd55a169fa3b
+    e84ff3d0-c7c5-d54d-186b-dd5770567773cd3a2135
+    fc245f69-bac6-cb36-9c89-0dff0db4fd92a5e559cc
+    0a8223c0-04e9-8d99-6423-9a3c930c1360b8387508
+    5ef91593-df19-0284-86d6-860a16dbd8d7136c505f
+    330e0156-55ba-8434-1380-8d6ff2c494ceb6599899
+    ca4e2811-187a-f5eb-7f66-7bbc458b2decaeb2dbe3
+    7465f56a-e2f3-0277-0906-0172bb69fccdcb18bdc1
+    fa9e76ae-faaf-4054-0aed-f68103563913460c2dd6
+    ff143731-ff19-782a-590d-62e15d9759f8dee65ef9
+    0fc89e4b-2e71-2d19-5056-c88e727c2224ddc00e57
+    c761a29b-e1ff-94ad-5ff8-0eb247421706e270160a
+    bfb0776c-aa51-2876-4347-2a417d8331fdea1efa81
+    f4f49730-1a68-4f65-9bd8-3a09ecf8c679
+    8eb2c14c-d578-0d0c-0efb-ce7b8a714f82f3cf9886
+    7d70220d-1a38-7537-3ec5-d8ad355221ae3ed43f9a
+    3fdb3120-3237-f76b-dec9-bd69b9a5fc066138b5f7
+    f8687625-bf3e-2ffb-8a08-12a057bd4b6c3bccb157
+    45935ca6-b2f4-9e25-fc4b-b1c59cb121ee1fea2e5d
+    61badb01-ed4e-569d-1083-e4b3c41673f437516387
+
+
+
+
+
+
+
+    RE-SYNCED THESE TO SAILTHRU
+
+
+af6bbf98-2f68-8d5c-1424-4cc8b8b3d805a2704353
+a9bfe672-07db-9244-653d-0a144af4a636bb316dc3
+38b29663-c81c-597a-9e00-ac1f505ed595690fd0d1
+8238ad21-5427-822a-beb1-89348eafcad8e3e731f2
+8f6738bf-da21-fbab-e0b1-2ebdb37c12c0c7403bf0
+a7a60843-62e7-ba77-30db-3407e31e5e8d2317e08e
+1d6e9b03-f068-0a21-b1fb-675818a157d84cc11777
+9b23c19c-7e05-81b6-9b29-ff01d4cb1b33e17456bc
+0d412ebf-4bf9-335a-f764-1cfd7309e8961ed89059
+59d81883-3dfc-105b-8301-157debcf37bf31e078c2
+d3b14bb2-aa96-471f-a6db-0336558f3139
+0da6c2a2-a245-45f2-be53-719e75a00a9d
+1e1e8ed1-8361-6a6d-87a3-6c1108ef335b3c493577
+d658e5ce-fed3-fc7a-b43d-e96c157f3fb9b9f53eb1
+e4d78272-9c5d-898f-054f-d8c60133b03f244a7779
+b4ab7022-fe32-4cd1-a68d-9e0644574ffd
+6569af1c-876b-b448-ff5b-8e49260236e90ea7ec62
+b27f5345-1105-73cb-eed0-56da035583008155b141
+3130c51e-6e00-749c-f994-21534792bf6ae2cbdf19
+c102b277-5b8c-bfa8-ecd0-7e8ce9e8325a52aa0c65
+896dbfa3-5c1b-e666-1f3a-b36e14a7d5b346d5a5c0
+cf565767-7a8b-438e-ab34-5d1b3bf62ba4
+c6729c82-6214-1b64-25ea-f6b134bf56157be89e48
+1fb0b11a-0d23-1a7c-6a5a-854925bbb6de17a7d44e
+7cd5dbf6-0f32-e4be-4546-021ba265970b461d447f
+23861855-e98e-2895-4de0-d5046b5c2574c818698c
+487c946f-b7af-5ab9-e344-aceed85d7a67d783c7b7
+949b2cd2-5a39-4456-5341-bf97e9bc772098ab2228
+2deda17f-5c06-4956-be3c-b22e5c3d5bef
+063ad809-ad4d-94e1-5fc3-24207be110a7d1b6c93d
+7dac2586-7cc1-483e-b7c4-8b765f637706
+c76095b7-f4e9-0861-9167-1a747416eb7d64931db3
+0a396d62-72b5-e7f3-297b-3ecbc96d3efe86df11f5
+449242af-2d7a-d9a0-135f-758b82ec34cc0f334622
+766d7b44-4e58-9233-168c-23a10b123f259629111b
+d5414116-827e-6e01-8856-a8ef9414920d4cff3506
+c2d475e3-8a5e-cfe2-1989-7d75642c8b6c9a36f7ca
+dce15ecf-c10c-4159-ac4b-f19ffff40918
+1249f23f-428d-a390-096c-05739832f72d4bb2ea8d
+12b6ce6d-8ada-dc7e-2982-3ecb7e158f396ed55240
+996eb5e3-c27a-b480-34c5-6d8bbdbb35463c3e8cdb
+5c20e5c8-0f62-4199-b04f-a7a7eb366ae4
+c045123a-72f2-c08a-2e58-d7c29d5db33b4a484061
+01e4b836-8938-1008-0e2e-5f02c2abdd7ca4447be4
+c6cfeb0d-c58f-a09c-0341-012ace4167d2c41e1453
+68fb37a2-751b-4ee6-b993-33b41674cd29
+40e91cf8-5de6-6cc2-db17-a832d58e01ab02cce9a4
+ff72e922-81ba-4903-9436-0149d58a3a5a
+c1ca9c32-ee5c-4911-785f-0b84d9608ff6a6d61667
+bc5afcba-4b21-fbbf-a92e-08cb629e681d5d8a3956
+dbee58d4-9405-cb27-7366-332b1d095038623be3da
+269a5f2e-bfa2-137d-19f3-b52279a2446e73b899fc
+369de9f4-f618-50ea-2998-0dad9a8d9eb70dee8e16
+180f8f1b-ae5f-a2fd-be87-609c3aeb97be7416021d
+01182984-88c2-522c-a586-b6131acabb0cf2a28447
+95306d18-e9dd-664f-4128-17f653e54937bb647c6e
+d4ac699d-a18a-fab8-007c-9a5fe967bc6c4b2f683e
+cbd01513-feea-df0f-63ff-17f7d29bb29bdf271907
+31be4e08-5706-455d-a820-ae3c36fdd3d2
+7f7d8c9f-d3e6-5c24-7e28-bec3fbbd640db7e1767b
+123ae55b-0ae6-0f5f-2f93-d0eff527b879a2965063
+62589f6d-35d5-6ba0-1178-c4297f0db0cbd51e13cb
+0062f271-22c4-5b32-4de1-657930f15c28359cee98
+2e1954c1-4348-5972-70ff-e59feb7b9f840cdd60bf
+603a8937-97ed-9a9d-3de2-49897a491b3c20abdb81
+98f7dd39-b6e2-4f3f-accf-088f7ce22d89
+90158299-d045-915f-049a-307c61b49ae00d3ea002
+aca1bd4c-d25a-9a03-ad93-41113a68b7efa5a022ce
+ab73af53-8f6d-2a37-e144-f9c932c59ee72db2df36
+52733da9-0992-445e-b85d-d4100d4666a5
+80693edc-0007-9c19-075e-face3c8165eee88e7d5d
+a0fb75d8-bc65-ee0b-8c6f-7a3876fdcd4a34380d72
+51f1b320-2d65-4fc3-bed7-a0fffebac794
+3c7802e7-30a3-a519-ddd2-622d2ad5ee654bae05c3
+727d8798-da3c-a19a-888b-fd2cb8fc8897a21887e0
+52e49b0c-8ef2-ead1-62b0-d8b23d961839ba698f84
+57d7b1bf-86c4-b4ce-e659-a0710bb63c1bdf9b6970
+4da61b62-95c8-493b-943c-1ddca8acc545
+6b6b0d33-80b6-44b9-a457-0fc396f5c354
+db3383be-86c5-4d75-b9c8-e4bf7d3a2eac
+99cbfe78-c760-456e-ab2f-500eeb84a685
+17f20b22-f383-cde6-209c-e1b05639e16095e280cd
+6f84d849-3bc1-aad1-0d02-f2826fdfe72801f205a1
+b8e8dc92-6b1f-b4b5-7be3-22efa789095b8949f330
+02381d9a-4b54-965f-33fb-e351eaab9779924f6363
+9e47a70d-1c03-5df4-4a09-0ffefac61e988492c8b3
+1853dd2c-4e6d-442a-84aa-c596c5eb40f3
+f561b066-12b0-067c-0114-f8a70a6a51ee47f6e63b
+e0129711-3aaf-fab0-7838-0de169d131cbddac1d71
+5136a11c-132a-74da-38de-76ef9417de561de1ac2c
+ac2fb6ef-a8b7-055b-5556-3cd10ae3126037d52c61
+c351d7ff-5331-dca9-bbac-7f965387e0fa95c7aa13
+6ad17bcc-496b-ca36-3314-74caa94325de383551cd
+bfcbd7a3-943c-d446-466e-a459959700432121591a
+6ca408f0-3d98-251b-0d9c-076ad3a3115e036c8ff2
+0544bf33-f2ca-bcf3-8510-766dfd86e57d429a22f2
+dfc76995-58cb-8079-097a-30d8526579f368d9845f
+3c7ff646-26c8-71e9-32dc-f2a683303d2cdb1b1dd8
+02698dd4-b004-cd21-5042-b8cd95f6140e68b893d2
+0ff5b0e8-172c-5213-f884-9384c53086e8e66dbbf6
+7d6edc2a-44b1-fba7-f6d3-097537e50baff754f418
+f9c0e62e-6f8d-4341-a723-abd83e49fdf2
+0a2890c4-4423-8a12-c26b-7c4c5ae7c9ca4aac888c
+2cb62082-640e-58dd-3248-72b17b6436390c51cd6b
+f0e1b9df-c19b-4d61-bf45-614959ea1efbe274b98e
+4d183bae-82bc-82ab-43f0-4f5e3b762e5df921aa52
+50e4e579-c69d-8597-1fa1-02d8906c1543121452b1
+e2c86fa8-cdeb-b009-9fda-248df29eb67440370fa5
+14f35b45-b2a1-45b3-e548-fc335c72b026ee347a5a
+67c96215-feaa-e64b-27ef-421613ca1d626f11d673
+3db96ab7-2314-597f-c494-9dfdc3160340055ff242
+0e888b83-12c4-18ce-ae2d-1cb52a0e653e840f4428
+55d3169b-d818-b67d-9f35-da7ccf73ddb1d29bae29
+5ec3d6f0-8cde-4df1-bb5d-00fe7eb67469
+1544fce7-1ba4-3135-fcd1-e937421b543aad2e4fab
+815b3bc8-3c66-4174-972c-8a8d3900f04b
+7b2bbd0a-88c1-7351-4333-3f95096900dd3159455f
+aff1a37c-b9b3-0d09-4be5-5e3eb5fa3af2fd7cd487
+53e1d8b9-ca75-f01b-fab8-d9571e08da8dc0707bfa
+057c7b99-f0fd-9f48-0950-02a6250b10607a0dba90
+fd5b830e-9f49-1edf-9994-d663159da5c4a49296ea
+e91e6754-a236-4254-aba4-569274688d6b
+548ad279-c780-7ea9-c2d7-40ad2878d0e392a1e07d
+9b7c6e05-5ce5-e5c0-913b-7105845e1711065735e8
+f2fb3398-942a-4604-b48c-6dc338e505f4
+50c199d6-19d2-43c1-82b1-0041692e4b90
+eff838f5-b7ad-4764-ea72-24651260c8b144611dce
+2a24f982-c49c-4b78-9332-6948f76e06d3
+9b85ee3c-b9a2-4491-865f-f593b064bf07
+a22239ab-9365-7bd8-8167-b72927b853aa08a7bc59
+369ed6ca-f8ed-198a-b00e-23b85cf69addc08de021
+2746d628-40d1-d8e7-d9d4-6759b0cf0258a3844c90
+ae0c3735-519a-ed4c-0bbb-dae6bbb19b71c697892f
+f94d6b53-c1f6-34f9-5d34-5c97a16c531df8a79cf5
+17d57929-00ff-af1d-f747-9f70a6268749dd49c844
+29c44600-4984-dc8d-2dbc-1681d889a5b88fbe4cd4
+9b785ad0-ca39-d558-bd3f-83bccc7f99a8fca8b140
+e373db66-3eb1-51d2-7140-db618be27246c8eecfb2
+c9a2787b-f132-89ab-fcd6-9fc43f8af8491b664f53
+e72a9ae7-58de-c3f4-3e04-7a2ad9971767e88a0a6d
+e7bae504-37e8-4a0c-9c6e-c0ae2bef0551
+0eb5785d-39f5-db71-cb16-2805cb10e6eeb66e5a77
+ca384f88-11ce-a15a-5347-1288bd4ecbd0e8d0971c
+87475f8a-093a-0507-5be6-630ac9c7b1363cfda578
+59a212ca-cd36-715b-ed7d-b1752a277079cb74a3a2
+186cf535-1578-433d-8247-ff57ee3bf59e
+fdd22a13-44e1-487a-8bb0-90ab9d4a945c
+68402fbb-714e-e36a-50d5-8ee791327612aa723bda
+d34f5075-758c-4337-bfaf-5a082ed3cd5e
+9cb80033-d8dc-8941-fe87-e7db9fb82df6dffca471
+5e04c0ac-64f3-3143-71d3-6a9342957aaa450e5fd5
+e09714a5-e76d-dae8-7a8b-50468d3c57b25a4b44ef
+eae8f887-71f3-4ed2-98c0-0501b7bb8a8b
+
+
+
+DELETE bad emails directly in MarkLogic
+
+11@11.com
+12345@aol.com
+123@aol.com
+1624c537@opayq.com
+18dc3eb5@opayq.com
+1a873716@opayq.com
+2832100d@opayq.com
+2@2.com
+2tjyhz+45ii73xi0shv4@sharklasers.com
+2wv1q9+d7hk02exierb8@sharklasers.com
+333@yahoo.com
+3@3.com
+4922spyke@dispostable.com
+4@4.com
+6@6.com
+854c9926@opayq.com
+98921eb9@opayq.com
+a@asd.com
+aa@bb.com
+aa@gmail.com
+aaa@aaaa.com
+aaa@bbb.com
+aaa@yahoo.com
+ab@aol.com
+ab@gmai.com
+abc@gmai.com
+abc@xyz.com
+abcd@aol.com
+abcdef@aol.com
+abcdef@hotmail.com
+abend
+acm@yahoo.com
+ad@aol.com
+ag@gmail.com
+anon@anon.com
+asd@as.com
+asd@gmail.com
+asda@asd.com
+asdf@afd.com
+asdf@asdfadsf.com
+asdf@gmail.com
+asdfasdf@asdfas.com
+ashraf
+azama
+b@gmail.com
+bb@bb.com
+bb@gmail.com
+bd@yahoo.com
+bell
+benson
+benton
+bf
+bhoui
+birch
+biteme@aol.com
+blair
+bob@gmail.com
+bob@hotmail.com
+bob@yahoo.com
+boo@boo.com
+bozo@hotmail.com
+bridge
+briggentomascabanayanjrrambo@example.com
+brosam
+brown
+bruch
+casani
+cassidy
+chappell-allen
+chaquette
+chastain
+chenkin
+coates
+cobb
+colston
+cordero
+d@d.com
+davis
+dd@yahoo.com
+ddd@aol.com
+dddd@dddd.com
+dddd@hotmail.com
+debose
+defibaugh
+delfavero
+dettwiler
+dickinson
+dongare
+donovan
+dunbrack
+e@aol.com
+e@gmail.com
+eschmann
+f@yahoo.com
+federal aviation administration
+federal reserve bpard
+fedresults
+ff@gmail.com
+fghfg@yahoo.com
+field
+fleming
+foo@bar.com
+foo@bar.net
+foo@foo.com
+franciose
+g@ff.com
+g@msn.com
+g@yahoo.com
+ghaleb
+gilchrist
+glaser
+gloudeman
+goel
+goss
+gutierrez
+hager
+hall
+haney
+hannon
+harbison
+harrison
+heeren
+henderson
+hobelmann
+hufford
+hunnicutt
+irshad
+jamiepetmkv
+jasper
+jblow@gmail.com
+jblow@hotmail.com
+jg@me.co
+jga
+joclimant
+john.smith@nowhere.com
+john123@gmail.com
+john@hotmail.com
+john@yahoo.com
+johndoe@aol.com
+johndoe@gmail.com
+johnj@yahoo.com
+johnsmith@johnsmith.com
+johnsmith@yahoo.com
+jojo@hotmail.com
+jones
+js@gmail.com
+jsmith@aol.com
+jsmith@email.com
+jsmith@hotmail.com
+junk@gmail.com
+kahn
+kalinowski
+kilday
+kinsley
+kiser
+kromah
+lineses
+lombardo
+m@aol.com
+m@gmail.com
+m@yahoo.com
+macdonald
+mahoney
+marshall
+maw5m@
+mcgee
+me2@here.com
+me@aol.com
+me@gmail.com
+me@here.com
+me@hotmail.com
+me@me.com
+me@verizon.net
+meneely
+merten
+mike@gmail.com
+mike@mike.com
+miller
+mootz
+morgan
+n@a.com
+na@gmail.com
+nammour
+nero
+newhart
+ng
+no@mail.com
+no@msn.com
+no@no.net
+no@no.no
+no@none.com
+no@way.com
+nobody@gmail.com
+noname@aol.com
+noname@gmail.com
+noname@yahoo.com
+none@comcast.net
+none@example.com
+none@none.com
+none@none.org
+noneya@yahoo.com
+nonyaao@hotmai.com
+nooger
+noone@gmail.com
+noone@hotmail.com
+normcos@gmail.com
+notme@home.com
+noway@gmail.com
+nunya@nunya.com
+oakes
+obrien
+ogboli
+ollivierre
+one@one.com
+padam
+peischler
+pichert
+pryor
+raigns
+ramirez
+randazzo
+reddix
+reddy
+rfuller2391@g
+roat
+ross
+rossetti
+royse
+runnels
+russ.overton
+sachdev
+sanders se
+saxton
+sf
+sgi0@cdc
+shen
+simon
+sones
+steele
+steve
+sweeney
+t@aol.com
+t@yahoo.com
+taburnetttva.gov
+tagg
+takacs
+taufa
+test.name
+test@email.com
+test@test1.com
+test@tests.com
+thai
+thomas
+thompson
+trang
+trudel
+unsubscribed
+vaughn
+verna
+wagner
+washington
+waters
+weitz
+welch
+wennergren
+why@dontask.com
+why@yahoo.com
+williams
+wilmot
+wilson
+winter
+withheld@withheld.com
+x@xxx.com
+xu
+xx@gmail.com
+xx@hotmail.com
+xx@xxx.com
+xxx@aol.com
+xxx@cox.net
+xxx@xxx.com
+xxx@xxx.xxx
+xxxxxx@xxx.com
+yo@yahoo.com
+you@hotmail.com
+ywaya
+yy
+z@z.com
+zimberg
+zimbler

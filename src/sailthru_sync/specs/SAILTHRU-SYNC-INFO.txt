@@ -1,0 +1,113 @@
+SAILTHRU USER DATA SYNC IN THE EXISTING APPLICATION
+===================================================
+
+user model before-update trigger
+
+    1  if the email address has changed, and we have a sailthru ID in the db,
+       then make a Sailthru API request using the Sailthru ID to update the
+       email address there
+       -> NOTE: see below -- we will no longer be handling email address changes in this way
+
+    2  email hash is updated (we can use a property on the model for this,
+       so can probably not worry about this step)
+
+
+user model before-create trigger
+
+    1  email has update -- see #2 in 'before-update' above
+
+
+user model after-update trigger
+
+    1 update sailthru:
+        a  get var mappings and map user vars to ST fields
+        b  get newsletter subscriptions; see sailthru-newsletter-subscriptions()
+        c  get list subscriptions; see sailthru-list-subscriptions()
+        d  generate product vars from product actions; see get-sailthru-product-vars()
+        -  pull together a, b, c, d to make a payload
+        -  if we have the Sailthru ID for the user, we use it as the key when doing
+           the API request, otherwise we use the email address as the key
+           -> NOTE: there may be no reason to use the Sailthru ID when making these API
+                    requests; see if it is possible to simplify this by only ever using
+                    the email as the key for these requests
+        -  make the request to ST with the payload
+        -  if we get an OK response back, and if we did not have the Sailthru ID
+           to start with, save the Sailthru ID on the user model
+           -> NOTE: ensure that this addition of the Sailthru ID to the user
+                    does not over-write any other fields (confirm w/Django docs etc)
+
+
+user model after-create trigger
+
+    1 updates sailthru -- see #1 in 'after-update' above
+
+
+user model after-delete trigger
+
+    1 updates user at Sailthru to set the email address to 'deleted.user@govexec.com'
+      with conflict value 'merge'
+      -> NOTE: we should now do this synchronously, similar to how we plan to handle
+               email address changes; so don't actually delete the AudienceUser in audb
+               until the ST request succeeds
+
+
+---------------------------------------------------
+
+
+SPECS FOR THE RE-WRITE
+======================
+
+- Mapping: create sources var which contains all of the source signups that a user has ever had (type array)
+
+- Users vars should be stored like ST stores the (e.g. first_name not firstName)
+
+- requirement: handle change-email scenarios differently to how they're currently happening;
+  in the audienceuser admin change view, the email address is no longer modifiable, and instead
+  you have to go to a separate screen (via a proxy model) in the admin to change the email
+  address; when you do this, the ST sync operation to change the email address happens
+  _synchronously_ and the save on the user in the audb only completes if the ST update succeeds;
+  the regular async ST sync operation will have no support for email changes
+
+- requirement: do NOT sync with Sailthru when there is no email for the user
+
+- requirement:
+    audb -> ST field mapping:
+      dictionary that maps sailthru fields to functions:
+        - use the `nameparser` Python library for names
+        - most are one-to-one mappings
+        - no need for user-defined mappings (ie not exposed via the admin)
+
+- handle failures better, retries, etc
+
+    -> Sailthru not infrequently rejects certain email addresses - DO NOT retry in this case?
+
+    -> Sailthru's API sometimes just fails (network error or whatever) - DO retry in this case?
+
+    -> requirement - for recording ST sync failures:
+        create a model, eg `SailthruSyncFailure`, and it would have a relation to the
+        sync-failed model in question (could be AudienceUser, or something else in the future,
+        if we end up doing other kinds of non-user syncing to ST) and it would log the error
+        message; then in the admin, the list view would give easy access to the user and
+        an option for re-trying the Sailthru sync operation; we'd also want to get some
+        kind of alert, probably an email, when one of these sync failures is created
+        (could also potentially log in Sentry).
+
+        - Ensure we log the case when sailthru returns an id back that is
+          different that the one we have in the db for the user. Message should be:
+              "Sailthru tried to change your Sailthru ID, son - <new id>"
+
+    -> we'll want to log all ST sync interactions/operations to logs
+
+- make sure we're handling the initial-get-the-SID-back-and-store-it procedure correctly,
+  _ie_ that we avoid situations where we get the SID back after the initial sync and then
+  update the user model at a point in time where it might later get clobbered/over-written
+  by some other in-progress request/task
+
+- goal: debounce/coalesce ST sync operations to minimize the number of in-quick-succession
+        POSTs to ST (implementation will be figured out)
+
+? whether to move ST event firing to audb -- this is contingent on what we figure out
+  for how the ST sync handling (coalescing, etc) gets taken care of; once that is clearer
+  we can resolve the question of where/how the ST event firing is going to happen
+
+- add automated tests

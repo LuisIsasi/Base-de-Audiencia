@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# build Python 3.5.1 from source
+sudo apt-get -y build-dep python3
+sudo apt-get -y install libreadline6-dev libsqlite3-dev liblzma-dev libbz2-dev
+sudo apt-get -y install tk8.5-dev blt-dev libgdbm-dev libssl-dev libncurses5-dev
+cd /home/vagrant
+wget -q https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tgz
+tar xzf Python-3.5.1.tgz
+cd Python-3.5.1
+./configure
+make
+sudo make install
+cd /home/vagrant
+rm Python-3.5.1.tgz
+rm -rf Python-3.5.1

@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+
+{% block welcome-msg %}
+    <strong>{% firstof user.get_short_name user.get_username %}</strong>
+    {% if request.user.is_authenticated %} / {% endif %}
+{% endblock %}
+
+{% block userlinks %}
+    {% if user.has_usable_password %}
+        <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+    {% endif %}
+    <a href="{% url 'admin:logout' %}">Log out</a>
+{% endblock %}

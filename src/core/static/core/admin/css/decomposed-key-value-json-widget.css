@@ -1,0 +1,63 @@
+.jsonwidget-outer-container {
+    margin-left: 170px;
+}
+
+.jsonwidget-outer-container td {
+    vertical-align: top;
+    padding-left: 0;
+    padding-right: 12px;
+}
+
+.jsonwidget-outer-container input[type=text] {
+    border: 1px solid #ccc;
+    width: 30em;
+}
+
+.jsonwidget-outer-container .jsonwidget-kv-container .jsonwidget-key,
+.jsonwidget-outer-container .jsonwidget-kv-container .new-key {
+    width: 10em;
+}
+
+.jsonwidget-kv-container.error input[type=text] {
+    /* I couldnt' figure out a clean way to do this with normal django junk */
+    border: 1px solid #ba2121;
+}
+
+.jsonwidget-kv-container.error .jsonwidget-kv-container-error-marker {
+    color: #ba2121;
+}
+
+.jsonwidget-outer-container .td-deletelink {
+    vertical-align: middle;
+}
+
+.jsonwidget-outer-container .inline-deletelink {
+    /* adjusting the Django Admin-supplied class for our purposes here */
+    float: none;
+    display: inline-block;
+    text-indent: 0;
+}
+
+.jsonwidget-outer-container .add-kv-pair-container td {
+    border: 0;
+}
+
+.jsonwidget-outer-container .add-kv-pair-container .add-button {
+    background: url(../../../admin/img/icon-addlink.svg) 0 1px no-repeat;
+    padding-left: 16px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.jsonwidget-outer-container .add-kv-template {
+    display: none;
+}
+
+.ui-menu .ui-menu-item .official {
+    background-color: #79aec8;
+    color: #fff;
+    font-size: 10px;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    padding: 3px;
+}

@@ -1,0 +1,9 @@
+{% if sync_failure_notifications.exists %}
+<ul class="messagelist">
+  <li class="error">
+    Unresolved
+    <a href="{% url 'admin:sailthru_sync_syncfailure_changelist' %}">sailthru sync failures</a>
+    exist and need your attention.
+  </li>
+</ul>
+{% endif %}

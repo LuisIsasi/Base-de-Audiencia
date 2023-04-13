@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+    db:
+        image: postgres:9.4.26-alpine
+        volumes:
+          - "db:/var/lib/postgresql/data"
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_DB=audb
+            - POSTGRES_USER=django
+            - POSTGRES_PASSWORD=django
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U django"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    audb_web:
+        build:
+            context: .
+            dockerfile: Dockerfile.local
+        environment:
+            - DB_NAME=audb
+            - DB_USER=django
+            - DB_PASS=django
+            - DB_HOST=db
+            - SENTRY_ENVIRONMENT=local
+        volumes:
+            - .:/app
+        ports:
+            - "7979:7979"
+        depends_on:
+            - db
+        restart: on-failure:1
+        command: >
+            sh -c "python src/manage.py migrate &&
+                   python src/manage.py runserver 0.0.0.0:7979"
+
+        extra_hosts:
+            - "dev-audb.govexec.com:172.17.3.131"
+
+    redis:
+        image: "redis:alpine"
+        command: redis-server
+        expose:
+            - "6379"
+
+    worker:
+        build:
+            context: .
+            dockerfile: Dockerfile.local
+        environment:
+            - C_FORCE_ROOT=true
+        links:
+            - redis
+        restart: always
+        command: python src/manage.py celery -A audb worker --loglevel=debug --pidfile=/app/run/worker.pid -n celery-worker.%%h
+
+volumes:
+    db:

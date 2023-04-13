@@ -1,0 +1,16 @@
+.for-external-popup-core-products-name
+{
+  -webkit-appearance: none;
+  margin: 0;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  color: #447e9b;;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: bold;
+}
+.for-external-popup-core-products-name:hover
+{
+  color: #036;
+}

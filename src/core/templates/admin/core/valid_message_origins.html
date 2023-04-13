@@ -1,0 +1,11 @@
+<script>
+  var AUDB = AUDB || {};
+  AUDB.valid_message_origins = new RegExp([
+    {% if debug %}
+      "(?:^http://localhost:8100$)",
+      "(?:^https?://admin.dev.govexec.com$)"
+    {% else %}
+      "(?:^https?://admin.govexec.com$)"
+    {% endif %}
+  ].join("|"));
+</script>

@@ -1,0 +1,70 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls admin_static admin_modify %}
+
+{% block extrahead %}
+  {{ block.super }}
+
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+
+  <script>
+    window.jQuery = django.jQuery; // so jQuery UI works
+    window.VARS_LOOKUP = {% if vars_lookup %}{{ vars_lookup|safe }}{% else %}{}{% endif %};
+  </script>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+  <script>
+    (function($) {
+        // to add the 'official' badges next to official vars in the vars autocomplete
+        $.widget( "app.autocomplete", $.ui.autocomplete, {
+            _renderItem: function(ul, item) {
+                var result = this._super(ul, item);
+                if (item.official) {
+                    $(result).append(' <span class="official">OFFICIAL</span>');
+                }
+                return result;
+            }
+        });
+    })(django.jQuery);
+  </script>
+
+{% endblock %}
+
+
+{% block after_related_objects %}
+    {# we need breathing room before the delete/save buttons at the bottom #}
+    <p>&#xA0; {# :-) #} </p>
+
+    <script type="text/javascript">
+
+        (function($) {
+          // we do not want people to be able to modify a subscription's 'List' once that subscription exists
+          var existingSubscriptionLists = $(
+            "#subscriptions-group .form-row.has_original .field-list select"
+          );
+          existingSubscriptionLists.each(function(i, elem) {
+            var $elem = $(elem);
+            var listSlug = $(elem).find("option:selected").text();
+            $elem.after("<span>" + listSlug + "</span>");
+            $elem.hide();
+          });
+
+          // hide the annoying tiny-text __str__ representations on the inlines
+          $(".inline-related table td.original p:first-child:not(:has(*))").hide();
+
+          // add 'View user at Sailthru' convenience link if we can
+          if ($('#id_sailthru_id').val()) {
+            var email_address = $('.field-email div > label').next('p').text();
+            if (email_address && email_address != "-") {
+              var stURL = "https://my.sailthru.com/reports/user_lookup?id=" + email_address.trim();
+              $('#id_sailthru_id').after(
+                '<div style="display: inline-block; padding-left: 1em;">' + 
+                '<a target="_blank" href="' + stURL + '">View user at Sailthru</a></div>'
+              );
+            }
+          }
+
+    })(django.jQuery);
+    </script>
+
+{% endblock %}

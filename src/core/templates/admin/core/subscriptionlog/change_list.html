@@ -1,0 +1,86 @@
+{% extends "admin/change_list.html" %}
+{% load admin_urls i18n %}
+{% load admin_list %}
+
+{% block content_title %}
+    <h1>Subscription Logs</h1>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="/">
+        Home
+    </a>
+    &rsaquo;
+    <a href="/core/list/">
+        Lists
+    </a>
+    &rsaquo;
+    {{ cl.opts.verbose_name_plural|capfirst }}
+</div>
+{% endblock %}
+
+{% block filters %}
+    {% if cl.has_filters %}
+        <div id="changelist-filter">
+            <h2>{% trans 'Filter' %}</h2>
+            {% for spec in cl.filter_specs %}
+                {% if spec.title != 'list' %}
+                    {% admin_list_filter cl spec %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block object-tools %}
+<ul class="object-tools">
+    <li>
+        <a href="/core/list/">
+            All Lists
+        </a>
+    </li>
+    {% if list_id %}
+    <li>
+        <a href="/core/list/{{list_id}}/change/">
+            Edit List
+        </a>
+    </li>
+    {% endif %}
+</ul>
+{{ block.super }}
+{% endblock %}
+
+{% block result_list %}
+    <div class="actions">
+        {% for field in action_form %}{% if field.label %}<label>{{ field.label }} {% endif %}{{ field }}{% if field.label %}</label>{% endif %}{% endfor %}
+        <button type="submit" class="button" title="{% trans "Run the selected action" %}" name="index" value="{{ action_index|default:0 }}">{% trans "Go" %}</button>
+        {% if actions_selection_counter %}
+            <script type="text/javascript">var _actions_icnt="{{ cl.result_list|length|default:"0" }}";</script>
+            <span class="action-counter">{{ selection_note }}</span>
+            {% if cl.result_count != cl.result_list|length %}
+            <span class="all">All selected</span>
+            <span class="question">
+                <a href="javascript:;" title="{% trans "Click here to select the objects across all pages" %}">{% blocktrans with cl.result_count as total_count %}Select all {{ module_name }}{% endblocktrans %}</a>
+            </span>
+            <span class="clear"><a href="javascript:;">{% trans "Clear selection" %}</a></span>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% result_list cl %}
+{% endblock %}
+
+{% block pagination %}
+<p class="paginator">
+    {% with page_str=page|stringformat:"s" %}
+    {% with page_param="&p="|add:page_str %}
+    {% with clean_url=request.get_full_path|cut:page_param %}
+        {% if page > 0 %}
+            <a href='{{ clean_url }}&p={{ page|add:"-1" }}'>Prev</a>
+        {% endif %}
+        <a href='{{ clean_url }}&p={{ page|add:"1" }}'>Next</a>
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+</p>
+{% endblock %}

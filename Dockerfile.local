@@ -1,0 +1,52 @@
+FROM python:3.5.10-alpine3.12
+
+# don't write .pyc or .pyo files
+ENV PYTHONDONTWRITEBYTECODE 1
+# don't buffer output to stdout/stderr
+ENV PYTHONUNBUFFERED 1
+
+# Round-about way to install PhantomJS for selenium tests
+ENV PHANTOMJS_VERSION 2.1.1
+RUN apk add --update --no-cache curl \
+    && curl -Ls "https://github.com/dustinblackman/phantomized/releases/download/${PHANTOMJS_VERSION}/dockerized-phantomjs.tar.gz" | tar xz -C / \
+    && curl -k -Ls https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64.tar.bz2 | tar -jxvf - -C / \
+    && cp phantomjs-${PHANTOMJS_VERSION}-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs \
+    && rm -fR phantomjs-${PHANTOMJS_VERSION}-linux-x86_64 \
+    && apk del curl
+
+# The .build-deps will be needed for the pip install later
+RUN apk add --no-cache --virtual .build-deps \
+    build-base postgresql-dev openssl-dev libffi-dev \
+    && find /usr/local \
+        \( -type d -a -name test -o -name tests \) \
+        -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
+        -exec rm -rf '{}' + \
+    && runDeps="$( \
+        scanelf --needed --nobanner --recursive /usr/local \
+                | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+                | sort -u \
+                | xargs -r apk info --installed \
+                | sort -u \
+    )" \
+    && apk add --virtual .rundeps $runDeps \
+    && apk add postgresql-client
+
+RUN mkdir /app
+RUN mkdir /app/run
+
+WORKDIR /app
+
+# Copy and install requirements
+COPY ./requirements-local.txt /app/requirements-local.txt
+COPY ./requirements-pvt.txt /app/requirements-pvt.txt
+RUN pip install --upgrade pip \
+    && pip install -r requirements-local.txt \
+    && pip install -i https://govexec.mycloudrepo.io/public/repositories/pypi \
+        -r requirements-pvt.txt --no-deps
+
+# Clean up .build-deps
+RUN apk del .build-deps && rm -rf /root/.cache
+
+# Copy other files
+COPY . /app
+EXPOSE 7979

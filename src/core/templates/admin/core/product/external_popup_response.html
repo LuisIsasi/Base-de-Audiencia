@@ -1,0 +1,19 @@
+{% load admin_static i18n %}<!DOCTYPE html>
+{% comment %}
+  Could work to make this more general--but YAGNI for now
+{% endcomment %}
+<html>
+  <head>
+    <title>{% trans 'Popup closing...' %}</title>
+    <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'core/admin/js/product.js' %}"></script>
+  </head>
+  <body>
+    {% include 'admin/core/valid_message_origins.html' %}
+    <script type="text/javascript">
+      AUDB.send_products_selection("{{ slug }}", "{{ name }}");
+    </script>
+  </body>
+</html>

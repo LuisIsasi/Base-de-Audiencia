@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf8"/>
+    <title>Test Questionnaire</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1 id="questionnaire-name">{{ questionnaire.name }}</h1>
+    <script>
+      $("body").append($("<p/>", { "class": "test-js", text: "{{ questionnaire.slug }}" }));
+
+      var noodle_interval = null;
+      var check_noodles = function(task_id)
+      {
+          $.ajax("/test-examples/check-noodles/", {
+            data: { task_id: task_id },
+            success: function(data){
+              if(!data.ready)
+              {
+                console.log("no noodles");
+              }
+              else
+              {
+                console.log("yay noodles");
+                clearInterval(noodle_interval);
+              }
+            }
+          });
+      };
+
+      $.ajax("/test-examples/request-noodles/", {
+        method: "POST",
+        success: function(data) {
+          noodle_interval = setInterval(function(){
+            console.log("checking on: " + data.task_id);
+            check_noodles(data.task_id);
+          }, 2000);
+        },
+      });
+    </script>
+  </body>
+</html>

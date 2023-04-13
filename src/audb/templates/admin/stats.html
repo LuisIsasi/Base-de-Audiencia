@@ -1,0 +1,53 @@
+{% extends "admin/base_site.html" %}
+{% load sailthru_sync_notifications %}
+{% load i18n admin_urls admin_static admin_modify %}
+{% load static %}
+
+{% block extrastyle %}<link rel="stylesheet" type="text/css" href="{% static "core/admin/css/list.css" %}" />{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    &rsaquo; <a href="/core/">Audience Data</a>
+    &rsaquo; <a href="/core/list/">Lists</a>
+    &rsaquo; {{name}}
+</div>
+{% endblock %}
+
+{% block content %}
+<h1 class="core-list-stats-title">Welcome to the Stats-a-matic 2000!</h1>
+<p class="core-list-stats-desc">The place you go to die the death of a 1,000 statistics!</p>
+<hr/>
+
+{% block object-tools %}
+  <ul class="object-tools">
+    {% block object-tools-items %}
+    <li>
+        <a href="/core/list/{{ pk }}/history/" class="historylink">History</a>
+    </li>
+    <li>
+        <a href="/core/list/{{ pk }}/change/" class="historylink">Edit</a>
+    </li>
+    <li>
+      <a href="/core/subscriptionlog/?list_id={{ pk }}" class="historylink">Subscription Log</a>
+    </li>
+    {% if has_absolute_url %}<li><a href="{{ absolute_url }}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif %}
+    {% endblock %}
+  </ul>
+{% endblock %}
+
+<table class="core-list-stats-table">
+    <tr class="core-list-stats-label">
+        <td>List Name</td>
+        <td>Total List Users</td>
+        <td>Total Subscribers</td>
+        <td>Total Unsubscribed</td>
+    </tr>
+    <tr class="core-list-stats-text">
+        <td>{{ name }}</td>
+        <td>{{ list_users_total }}</td>
+        <td>{{ list_users_active }}</td>
+        <td>{{ list_users_inactive }}</td>
+    </tr>
+</table>
+{% endblock %}

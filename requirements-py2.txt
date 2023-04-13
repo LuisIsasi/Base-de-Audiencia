@@ -1,0 +1,9 @@
+certifi==2018.11.29
+chardet==3.0.4
+ecdsa==0.13
+Fabric==1.10.2
+idna==2.8
+paramiko==1.16.0
+pycrypto==2.6.1
+requests==2.21.0
+urllib3==1.24.1

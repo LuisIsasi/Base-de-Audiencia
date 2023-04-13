@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+echo "Supervisord: installing...";
+sudo apt-get -y install supervisor=3.0b2-1;
+
+echo "Supervisord: Copying conf files...";
+sudo cp /vagrant/vagrant-files/celery/supervisord/*.conf /etc/supervisor/conf.d/;
+
+echo "Supervisord: Restarting supervisord...";
+sudo /etc/init.d/supervisor restart;
+
+echo "Supervisord: done.";

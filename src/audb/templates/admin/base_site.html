@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+{% load sailthru_sync_notifications %}
+
+{% block title %}{{ title }} | GEMG Audience Database{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">GEMG Audience Database</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block messages %}
+
+{{ block.super }}
+
+{% show_sync_failure_notifications %}
+
+{% endblock %}

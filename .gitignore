@@ -1,0 +1,14 @@
+.vagrant
+.venv
+.bundle
+.idea/
+.DS_Store
+*.pyc
+.project
+.pydevproject
+src/audb/settings/local.py
+ghostdriver.log
+/coverage/
+uwsgi.touch
+vagrant-files/custom_bashrc
+env/

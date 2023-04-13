@@ -1,0 +1,75 @@
+<div class="jsonwidget-outer-container">
+
+    <table>
+        <tbody>
+
+          {% for row in rows %}
+            <tr class="jsonwidget-kv-container{% if row.has_error %} error{% endif %}">
+              <td>
+                  <input
+                         class="jsonwidget-key"
+                         type="text"
+                         name="{{prefix}}_key_[{{field}}-{{row.pair_id}}]"
+                         value="{{row.key}}"
+                         data-pair-id="{{row.pair_id}}"
+                  />
+                 {% if row.duplicate_key %}
+                 <p class="jsonwidget-kv-container-error-marker">Duplicate key</p>
+                 {% endif %}
+                 {% if row.has_spaces %}
+                 <p class="jsonwidget-kv-container-error-marker">Has spaces</p>
+                 {% endif %}
+                 {% if row.is_reserved %}
+                 <p class="jsonwidget-kv-container-error-marker">Reserved</p>
+                 {% endif %}
+              </td>
+              <td>
+                <input
+                       class="jsonwidget-value"
+                       type="text"
+                       name="{{prefix}}_value_[{{field}}-{{row.pair_id}}]"
+                       value="{{row.val}}"
+                       data-pair-id="{{row.pair_id}}"
+                />
+              </td>
+              <td class="td-deletelink">
+                <span title="Remove item" class="inline-deletelink"/>
+              </td>
+            </tr>
+          {% endfor %}
+
+          <tr class="jsonwidget-kv-container add-kv-pair-container">
+              <td colspan="3">
+                  <span class="add-button">{{add_button_label}}</span>
+              </td>
+          </tr>
+
+          <tr class="jsonwidget-kv-container add-kv-template">
+              <td>
+                  <input type="text"
+                         data-name="{{prefix}}_key_[{{field}}-"
+                         value=""
+                         placeholder="var name"
+                         class="new-key"
+                  />
+              </td>
+              <td>
+                  <input type="text"
+                         data-name="{{prefix}}_value_[{{field}}-"
+                         value=""
+                         placeholder="var value"/>
+              </td>
+              <td class="td-deletelink">
+                  <span title="Remove item" class="inline-deletelink"/>
+              </td>
+          </tr>
+
+        </tbody>
+    </table>
+
+    <span style="display: none;"
+          class="remove-confirm-prompt"
+          data-prompt-text="{{remove_confirm_prompt_text}}"
+    />
+
+</div>

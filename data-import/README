@@ -1,0 +1,21 @@
+   HOWTO: get data from MarkLogic and get it into the new audience db
+
+
+0  NB: all of these steps should happen _outside_ of the Vagrant VM and you should
+   use the ge-govexec project's virtualenv.
+
+1  This process assumes that your target Postgres db has all the necessary tables and
+   that those tables are empty.
+
+2  To get user data from MarkLogic, adjust the command in `run_mlcp.sh` as necessary
+   and then run it (mlcp). This will export all MarkLogic user data and write that data
+   to the filesystem as xml documents. Make sure that the output directory you specify
+   does not already exist.
+
+3  When the mlcp process is done, you can use `ingest.py` to start populating the target
+   tables.
+
+   * first adjust all relevant settings in the CONFIG dict at the top of `ingest.py`
+
+   * then run `python ingest.py all`, which will create all
+     lists/newsletters/products/users, etc.

@@ -1,0 +1,28 @@
+name: Pull Request Checks
+
+on: pull_request
+
+jobs:
+  run-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout Github Action'
+        uses: actions/checkout@v2
+
+      - name: 'Initialize Codebase'
+        run: make init
+
+      - name: 'Build `docker-compose` Environment'
+        run: docker-compose up -d redis audb_web db
+
+      - name: 'Check Running Containers'
+        run: docker ps -a
+
+      - name: Sleep for 10 seconds (To make sure `db` is ready)
+        run: sleep 10s
+        shell: bash
+
+      - name: 'Run Django Unit Tests'
+        run: make test-run
