@@ -38,7 +38,6 @@ X_FRAME_OPTIONS = 'DENY'
 # Application definition
 
 INSTALLED_APPS = [
-    'google_auth',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -99,10 +98,10 @@ WSGI_APPLICATION = 'audb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'audb',
-        'USER': 'django',
-        'PASSWORD': 'django',  # not actually the password; Postgres is config'd for local access
-        'HOST': 'db',
+        "NAME": os.getenv("DB_NAME", "audb"),
+        "USER": os.getenv("DB_USER", "audb"),
+        "PASSWORD": os.getenv("DB_PASS", "audb"),
+        "HOST": os.getenv("DB_HOST", "db"),
         'PORT': '5432'
     }
 }
@@ -201,30 +200,6 @@ LOGGING = {
 RAVEN_CONFIG = {
     'dsn': 'http://5b35e023668542a19ea102f986a70a3d:9292b78557e24dcb8352a13f5d6ecdaa@sentry01.geprod.amc/17'
 }
-
-
-# Social Auth
-AUTHENTICATION_BACKENDS = (
-    'google_auth.backends.GoogleAuthBackend',
-)
-
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
-SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
-SOCIAL_AUTH_GOOGLE_AUTH_WHITELISTED_DOMAINS = (
-    'atlanticmedia.com',
-    'atlanticmediacompany.com',
-    'defenseone.com',
-    'govexec.com',
-    'nationaljournal.com',
-    'nextgov.com',
-    'theatlantic.com',
-    'govexecmediagroup.com',
-)
-SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
-SOCIAL_AUTH_ON_HTTPS = False
-SOCIAL_AUTH_GOOGLE_AUTH_KEY = '929348258608-g8sud34o16lqd8j4g07gpm0f55m5o849.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_AUTH_SECRET = 'chyWjpWIop2HTorv6wUkHpnL'
-SOCIAL_AUTH_URL_NAMESPACE = 'google-auth:social'
 
 
 # Django REST Framework
