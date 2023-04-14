@@ -9,8 +9,8 @@ services:
             - "5432:5432"
         environment:
             - POSTGRES_DB=audb
-            - POSTGRES_USER=django
-            - POSTGRES_PASSWORD=django
+            - POSTGRES_USER=audb
+            - POSTGRES_PASSWORD=audb
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U django"]
             interval: 10s
@@ -23,8 +23,8 @@ services:
             dockerfile: Dockerfile.local
         environment:
             - DB_NAME=audb
-            - DB_USER=django
-            - DB_PASS=django
+            - DB_USER=audb
+            - DB_PASS=audb
             - DB_HOST=db
             - SENTRY_ENVIRONMENT=local
         volumes:
