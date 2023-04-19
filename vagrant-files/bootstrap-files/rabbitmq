@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-sudo apt-get -y install rabbitmq-server=3.2.4-1
-sudo rabbitmq-plugins enable rabbitmq_management
-sudo /etc/init.d/rabbitmq-server restart
