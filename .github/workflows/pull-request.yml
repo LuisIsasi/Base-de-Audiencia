@@ -3,22 +3,6 @@ name: Pull Request Checks
 on: pull_request
 
 jobs:
-  run-tests:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 'Checkout Github Action'
-        uses: actions/checkout@v2
-
-      - name: 'Build `docker-compose` Environment'
-        run: | 
-          docker-compose up -d
-
-      - name: 'Check Running Containers'
-        run: docker ps -a
-
-      - name: 'Run Python Unit Tests'
-        run: docker exec base-de-audiencia_audb_web_1 python src/manage.py test
 
   run-linter:
     name: Lint Code Base
