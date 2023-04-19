@@ -28,7 +28,7 @@ def sync_user_basic(self, user_pk):
     logger.info("Starting sailthru sync for user %s.", str(user_pk))
     try:
         aud_user = AudienceUser.objects.get(pk=user_pk)
-    except AudienceUser.DoesNotExist:
+    except AudienceUser.DoesNotExist as e:
         msg = "Sailthru sync basic: Unable to find user."
         sentry_sdk.capture_exception(e)
         logger.error("Sailthru sync basic: Unable to find user: %s", str(user_pk))
@@ -104,7 +104,6 @@ def sync_user_basic(self, user_pk):
     try:
         data = response.get_body()
         sid = data["keys"]["sid"]
-        sailthru_optout = data["optout_email"]
     except KeyError:
         msg = "Sailthru sync basic: Sailthru response missing expected values."
         m.SyncFailure.objects.from_sailthru_response(msg, aud_user, response)

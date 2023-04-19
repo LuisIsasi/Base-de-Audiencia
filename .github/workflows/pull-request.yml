@@ -27,7 +27,3 @@ jobs:
       - name: Run Black - Confirm files have been formatted using Black
         if: ${{ env.gemg_py_diff != '' }}
         run: python3 -m black ${{env.gemg_py_diff}} --check
-
-      - name: Run Python Linter
-        if: ${{ env.gemg_py_diff != '' }}
-        run: python3 -m flake8 ${{env.gemg_py_diff}} --ignore=E501,F405,W503

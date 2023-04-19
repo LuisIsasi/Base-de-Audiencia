@@ -3,7 +3,6 @@ import os
 from google_auth.settings import *
 
 from .celery import *
-from .model_mommy import MOMMY_CUSTOM_FIELDS_GEN
 from .sailthru import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

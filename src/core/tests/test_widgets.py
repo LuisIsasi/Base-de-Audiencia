@@ -69,9 +69,9 @@ class DecomposedKeyValueJSONWidgetTest(SimpleTestCase):
     def test_render_sanity(self):
         test_value = json.dumps({"a": 1})
         with self.assertRaises(TypeError):
-            rendered = self.widget.render(name="vars", value=test_value)
+            self.widget.render(name="vars", value=test_value)
 
-        rendered = self.widget.render(name="vars", value='"{}"')
+        self.widget.render(name="vars", value='"{}"')
 
     def test_render_errors(self):
         test_value = json.dumps(
