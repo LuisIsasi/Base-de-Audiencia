@@ -6,9 +6,13 @@ from django.dispatch import receiver
 from ...tasks import sync_user_basic
 
 
-@receiver(post_save, sender=core_models.ProductAction, dispatch_uid='sailthru_sync::signals::product_action_post_save')
+@receiver(
+    post_save,
+    sender=core_models.ProductAction,
+    dispatch_uid="sailthru_sync::signals::product_action_post_save",
+)
 def product_action_post_save(sender, **kwargs):
-    instance = kwargs['instance']
+    instance = kwargs["instance"]
     au = instance.audience_user
     if au.email:
         on_commit(lambda: sync_user_basic.apply_async([au.pk]))

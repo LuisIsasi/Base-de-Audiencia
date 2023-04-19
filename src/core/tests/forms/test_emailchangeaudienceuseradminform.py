@@ -12,9 +12,8 @@ from ... import admin as core_admin, models as core_models
 from .mock_sailthru import MockedSailthruClient
 
 
-@test.override_settings(SAILTHRU_SYNC_SIGNALS_ENABLED=False, RAVEN_CONFIG={'dsn': None})
+@test.override_settings(SAILTHRU_SYNC_SIGNALS_ENABLED=False, RAVEN_CONFIG={"dsn": None})
 class EmailChangeFormTest(test.TestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -25,56 +24,58 @@ class EmailChangeFormTest(test.TestCase):
         self.EmailChangeForm = modelform_factory(
             core_models.EmailChangeAudienceUser,
             form=core_admin.EmailChangeAudienceUserAdminForm,
-            fields="__all__"
+            fields="__all__",
         )
 
     def test_clean_email(self):
 
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
 
         form = self.EmailChangeForm(instance=user)
         form.cleaned_data = {}
 
-        form.cleaned_data['email'] = " b@a.com "
+        form.cleaned_data["email"] = " b@a.com "
         form.clean_email()
 
-        form.cleaned_data['email'] = None
+        form.cleaned_data["email"] = None
         with self.assertRaises(ValidationError):
             form.clean_email()
 
-        form.cleaned_data['email'] = '  '
+        form.cleaned_data["email"] = "  "
         with self.assertRaises(ValidationError):
             form.clean_email()
 
-        form.cleaned_data['email'] = ''
+        form.cleaned_data["email"] = ""
         with self.assertRaises(ValidationError):
             form.clean_email()
 
-        form.cleaned_data['email'] = user.email
+        form.cleaned_data["email"] = user.email
         with self.assertRaises(ValidationError):
             form.clean_email()
 
-        form.cleaned_data['email'] = user.email + "\t"
+        form.cleaned_data["email"] = user.email + "\t"
         with self.assertRaises(ValidationError):
             form.clean_email()
 
     def test_obtain_sync_lock(self):
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         form._obtain_sync_lock()
         with self.assertRaises(ValidationError):
             form._obtain_sync_lock()
-        self.assertEqual(sync_models.SyncLock.objects.filter(pk=form._sync_lock.pk).count(), 1)
+        self.assertEqual(
+            sync_models.SyncLock.objects.filter(pk=form._sync_lock.pk).count(), 1
+        )
 
     def test_obtain_sync_lock_user_deleted(self):
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         user.delete()
         with self.assertRaises(ValidationError):
             form._obtain_sync_lock()
 
     def test_delete_sync_lock(self):
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         form._obtain_sync_lock()
         form._delete_sync_lock()
@@ -82,43 +83,43 @@ class EmailChangeFormTest(test.TestCase):
             sync_models.SyncLock.objects.get(pk=form._sync_lock.pk)
 
     @test.override_settings(SAILTHRU_SYNC_ENABLED=False)
-    @mock.patch('core.admin.sailthru_client')
+    @mock.patch("core.admin.sailthru_client")
     def test_setting_override(self, get_sailthru_client):
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         form.cleaned_data = {}
         form.clean()
         self.assertFalse(get_sailthru_client.called)
 
-    @mock.patch('core.admin.sailthru_client')
+    @mock.patch("core.admin.sailthru_client")
     def test_sync_to_sailthru(self, get_sailthru_client):
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         form._sync_to_sailthru({})
         self.assertTrue(get_sailthru_client.called)
 
-    @mock.patch('core.admin.sailthru_client')
+    @mock.patch("core.admin.sailthru_client")
     def test_sync_to_sailthru_on_error(self, get_sailthru_client):
         client = MockedSailthruClient()
         client.api_post_raise_exception = True
         get_sailthru_client.return_value = client
 
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         form._obtain_sync_lock()
         with self.assertRaises(ValidationError):
             form._sync_to_sailthru({})
 
     def test_get_sync_data(self):
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
-        new_user = mommy.make('core.EmailChangeAudienceUser', email='b@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
+        new_user = mommy.make("core.EmailChangeAudienceUser", email="b@a.com")
         form = self.EmailChangeForm(instance=user)
         data = form._get_sync_data(user, new_user)
-        self.assertEqual({'id', 'key', 'keys', 'fields'}, set(data.keys()))
-        self.assertEqual(data['id'], user.email)
-        self.assertEqual(data['key'], 'email')
-        self.assertEqual(data['keys']['email'], new_user.email)
-        self.assertEqual(data['fields']['keys'], 1)
+        self.assertEqual({"id", "key", "keys", "fields"}, set(data.keys()))
+        self.assertEqual(data["id"], user.email)
+        self.assertEqual(data["key"], "email")
+        self.assertEqual(data["keys"]["email"], new_user.email)
+        self.assertEqual(data["fields"]["keys"], 1)
 
         new_user.email = None
         form._obtain_sync_lock()
@@ -126,7 +127,7 @@ class EmailChangeFormTest(test.TestCase):
             form._get_sync_data(user, new_user)
 
         user.email = None
-        new_user.email = 'b@a.com'
+        new_user.email = "b@a.com"
         form._obtain_sync_lock()
         with self.assertRaises(ValidationError):
             form._get_sync_data(user, new_user)
@@ -135,7 +136,7 @@ class EmailChangeFormTest(test.TestCase):
         response = MockedSailthruClient.MockedResponse()
         response.ok = False
 
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         form._obtain_sync_lock()
         with self.assertRaises(ValidationError):
@@ -151,7 +152,7 @@ class EmailChangeFormTest(test.TestCase):
         response = MockedSailthruClient.MockedResponse()
         response.ok = True
 
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         form._obtain_sync_lock()
         self.assertFalse(form._re_request_necessary(response))
@@ -169,7 +170,7 @@ class EmailChangeFormTest(test.TestCase):
 
     def test_get_new_user_sync_data(self):
         old_email = "a@a.com"
-        user = mommy.make('core.EmailChangeAudienceUser', email=old_email)
+        user = mommy.make("core.EmailChangeAudienceUser", email=old_email)
         form = self.EmailChangeForm(instance=user)
         new_email = "b@b.com"
         data = form._get_new_user_sync_data(user, new_email)
@@ -181,66 +182,67 @@ class EmailChangeFormTest(test.TestCase):
             form._get_new_user_sync_data(user, None)
 
     def test_verify_sid(self):
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com', sailthru_id='adf')
+        user = mommy.make(
+            "core.EmailChangeAudienceUser", email="a@a.com", sailthru_id="adf"
+        )
         form = self.EmailChangeForm(instance=user)
         form._obtain_sync_lock()
 
         response = MockedSailthruClient.MockedResponse()
-        response.body = {
-            'keys': {
-                'sid': user.sailthru_id
-            }
-        }
+        response.body = {"keys": {"sid": user.sailthru_id}}
 
         form._verify_sid(response, user.sailthru_id)
 
-        response.body['keys']['sid'] = user.sailthru_id + 'adsf'
+        response.body["keys"]["sid"] = user.sailthru_id + "adsf"
         with self.assertRaises(ValidationError):
             form._verify_sid(response, user.sailthru_id)
 
     @test.override_settings(SAILTHRU_SYNC_ENABLED=False)
     def test_clean_sync_disabled(self):
         EmailForm = type(
-            'Foo',
+            "Foo",
             (core_admin.EmailChangeAudienceUserAdminForm,),
             {
-                '_obtain_sync_lock': mock.MagicMock(),
-            }
+                "_obtain_sync_lock": mock.MagicMock(),
+            },
         )
 
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
-        Form = modelform_factory(core_models.EmailChangeAudienceUser, form=EmailForm, fields="__all__")
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
+        Form = modelform_factory(
+            core_models.EmailChangeAudienceUser, form=EmailForm, fields="__all__"
+        )
         form = Form(instance=user)
         form.cleaned_data = {
-            'email': 'a@a.com',
+            "email": "a@a.com",
         }
         form.clean()
         self.assertFalse(form._obtain_sync_lock.called)
 
     @test.override_settings(SAILTHRU_SYNC_ENABLED=True)
     def test_clean(self):
-        """Previous bits have been tested, so this will just ensure that they are called.
-        """
+        """Previous bits have been tested, so this will just ensure that they are called."""
         EmailForm = type(
-            'Foo',
+            "Foo",
             (core_admin.EmailChangeAudienceUserAdminForm,),
             {
-                '_obtain_sync_lock': mock.MagicMock(),
-                '_get_sync_data': mock.MagicMock(),
-                '_sync_to_sailthru': mock.MagicMock(),
-                '_re_request_necessary': mock.MagicMock(),
-                '_get_new_user_sync_data': mock.MagicMock(),
-                '_check_response_ok': mock.MagicMock(),
-                '_verify_sid': mock.MagicMock(),
-                '_delete_sync_lock': mock.MagicMock(),
-            }
+                "_obtain_sync_lock": mock.MagicMock(),
+                "_get_sync_data": mock.MagicMock(),
+                "_sync_to_sailthru": mock.MagicMock(),
+                "_re_request_necessary": mock.MagicMock(),
+                "_get_new_user_sync_data": mock.MagicMock(),
+                "_check_response_ok": mock.MagicMock(),
+                "_verify_sid": mock.MagicMock(),
+                "_delete_sync_lock": mock.MagicMock(),
+            },
         )
 
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
-        Form = modelform_factory(core_models.EmailChangeAudienceUser, form=EmailForm, fields="__all__")
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
+        Form = modelform_factory(
+            core_models.EmailChangeAudienceUser, form=EmailForm, fields="__all__"
+        )
         form = Form(instance=user)
         form.cleaned_data = {
-            'email': 'a@a.com',
+            "email": "a@a.com",
         }
         form.clean()
 
@@ -254,23 +256,23 @@ class EmailChangeFormTest(test.TestCase):
         self.assertTrue(form._delete_sync_lock.called)
 
     @test.override_settings(SAILTHRU_SYNC_ENABLED=False)
-    @mock.patch('core.admin.sync_user_basic.apply_async')
+    @mock.patch("core.admin.sync_user_basic.apply_async")
     def test_save_sync_disabled(self, async):
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         form.cleaned_data = {
-            'email': 'a@a.com',
+            "email": "a@a.com",
         }
         form.save()
         self.assertFalse(async.called)
 
     @test.override_settings(SAILTHRU_SYNC_ENABLED=True)
-    @mock.patch('core.admin.sync_user_basic.apply_async')
+    @mock.patch("core.admin.sync_user_basic.apply_async")
     def test_save_sync(self, async):
-        user = mommy.make('core.EmailChangeAudienceUser', email='a@a.com')
+        user = mommy.make("core.EmailChangeAudienceUser", email="a@a.com")
         form = self.EmailChangeForm(instance=user)
         form.cleaned_data = {
-            'email': 'a@a.com',
+            "email": "a@a.com",
         }
         form._aud_user = user
         form.save()

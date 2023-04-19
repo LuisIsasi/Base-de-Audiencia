@@ -23,17 +23,14 @@ class AthenaContentMetadataViewSet(viewsets.ModelViewSet):
     def _get_existing_metadata(data):
         try:
             return m.AthenaContentMetadata.objects.get(
-                athena_content_id=data.get('athena_content_id')
+                athena_content_id=data.get("athena_content_id")
             )
-        except (
-                m.AthenaContentMetadata.DoesNotExist,
-                ValueError
-        ):
+        except (m.AthenaContentMetadata.DoesNotExist, ValueError):
             return None
 
     def get_queryset(self):
         queryset = m.AthenaContentMetadata.objects.all()
-        slug = self.request.query_params.get('slug', None)
+        slug = self.request.query_params.get("slug", None)
         if slug:
             queryset = queryset.filter(slug=slug)
         return queryset
@@ -64,7 +61,7 @@ class UserContentHistoryViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = m.UserContentHistory.objects.all()
-        email = self.request.query_params.get('email', None)
+        email = self.request.query_params.get("email", None)
         if email:
             queryset = queryset.filter(email=email)
         return queryset
@@ -85,14 +82,14 @@ class AudienceUserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         prefetch_fields = (
-            'product_actions',
-            'source_signups',
-            'vars_history',
-            'subscriptions',
-            'subscriptions__list',
+            "product_actions",
+            "source_signups",
+            "vars_history",
+            "subscriptions",
+            "subscriptions__list",
         )
         queryset = m.AudienceUser.objects.all().prefetch_related(*prefetch_fields)
-        email = self.request.query_params.get('email', None)
+        email = self.request.query_params.get("email", None)
         if email:
             queryset = queryset.filter(email=email)
         return queryset
@@ -110,12 +107,14 @@ class ListViewSet(viewsets.ModelViewSet):
     serializer_class = api_serializers.ListSerializer
 
     def get_queryset(self):
-        queryset = m.List.objects.all().prefetch_related('subscription_triggers__related_list')
+        queryset = m.List.objects.all().prefetch_related(
+            "subscription_triggers__related_list"
+        )
 
-        list_type = self.request.query_params.get('type', None)
+        list_type = self.request.query_params.get("type", None)
         if list_type:
             queryset = queryset.filter(type=list_type)
-        slug = self.request.query_params.get('slug', None)
+        slug = self.request.query_params.get("slug", None)
         if slug:
             queryset = queryset.filter(slug=slug)
 
@@ -130,14 +129,12 @@ class SubscriptionTriggerViewset(viewsets.ModelViewSet):
     def list(self, request, list_pk):
         try:
             queryset = (
-                m.List.objects
-                .get(pk=list_pk)
-                .subscription_triggers
-                .select_related('primary_list', 'related_list')
+                m.List.objects.get(pk=list_pk)
+                .subscription_triggers.select_related("primary_list", "related_list")
                 .prefetch_related(
-                    'primary_list__subscription_triggers',
-                    'primary_list__subscription_triggers__related_list',
-                    'related_list__subscription_triggers__related_list'
+                    "primary_list__subscription_triggers",
+                    "primary_list__subscription_triggers__related_list",
+                    "related_list__subscription_triggers__related_list",
                 )
                 .all()
             )
@@ -149,15 +146,12 @@ class SubscriptionTriggerViewset(viewsets.ModelViewSet):
     def retrieve(self, request, pk, list_pk):
         try:
             st = (
-                m.List
-                .objects
-                .get(pk=list_pk)
-                .subscription_triggers
-                .select_related('primary_list', 'related_list')
+                m.List.objects.get(pk=list_pk)
+                .subscription_triggers.select_related("primary_list", "related_list")
                 .prefetch_related(
-                    'primary_list__subscription_triggers',
-                    'primary_list__subscription_triggers__related_list',
-                    'related_list__subscription_triggers__related_list'
+                    "primary_list__subscription_triggers",
+                    "primary_list__subscription_triggers__related_list",
+                    "related_list__subscription_triggers__related_list",
                 )
                 .get(pk=pk)
             )
@@ -168,10 +162,10 @@ class SubscriptionTriggerViewset(viewsets.ModelViewSet):
 
     def create(self, request, list_pk):
         payload = {}
-        payload['primary_list_slug'] = m.List.objects.get(pk=list_pk).slug
-        payload['related_list_slug'] = request.data.get('related_list_slug', None)
-        payload['override_previous_unsubscribes'] = request.data.get(
-            'override_previous_unsubscribes', None
+        payload["primary_list_slug"] = m.List.objects.get(pk=list_pk).slug
+        payload["related_list_slug"] = request.data.get("related_list_slug", None)
+        payload["override_previous_unsubscribes"] = request.data.get(
+            "override_previous_unsubscribes", None
         )
         serializer = api_serializers.SubscriptionTriggerSerializer(data=payload)
         serializer.is_valid(raise_exception=True)
@@ -190,25 +184,22 @@ class SubscriptionsViewset(viewsets.ModelViewSet):
     @staticmethod
     def _get_existing_subscription(data):
         try:
-            audience_user = m.AudienceUser.objects.get(pk=data.get('audienceuser_pk'))
-            list_ = m.List.objects.get(slug=data.get('list'))
+            audience_user = m.AudienceUser.objects.get(pk=data.get("audienceuser_pk"))
+            list_ = m.List.objects.get(slug=data.get("list"))
             return m.Subscription.objects.get(audience_user=audience_user, list=list_)
         except (
-                m.AudienceUser.DoesNotExist,
-                m.List.DoesNotExist,
-                m.Subscription.DoesNotExist,
-                ValueError
+            m.AudienceUser.DoesNotExist,
+            m.List.DoesNotExist,
+            m.Subscription.DoesNotExist,
+            ValueError,
         ):
             return None
 
     def list(self, request, audienceuser_pk):
         try:
             queryset = (
-                m.AudienceUser
-                .objects
-                .get(pk=audienceuser_pk)
-                .subscriptions
-                .select_related('list')
+                m.AudienceUser.objects.get(pk=audienceuser_pk)
+                .subscriptions.select_related("list")
                 .all()
             )
         except m.AudienceUser.DoesNotExist:
@@ -219,11 +210,8 @@ class SubscriptionsViewset(viewsets.ModelViewSet):
     def retrieve(self, request, pk, audienceuser_pk):
         try:
             s = (
-                m.AudienceUser
-                .objects
-                .get(pk=audienceuser_pk)
-                .subscriptions
-                .select_related('list')
+                m.AudienceUser.objects.get(pk=audienceuser_pk)
+                .subscriptions.select_related("list")
                 .get(pk=pk)
             )
         except (m.AudienceUser.DoesNotExist, m.Subscription.DoesNotExist, ValueError):
@@ -234,9 +222,9 @@ class SubscriptionsViewset(viewsets.ModelViewSet):
     def create(self, request, audienceuser_pk):
         # handles creates _and_ updates via POST
         data = copy.deepcopy(request.data)
-        if 'active' not in data:
-            data['active'] = True
-        data['audienceuser_pk'] = audienceuser_pk
+        if "active" not in data:
+            data["active"] = True
+        data["audienceuser_pk"] = audienceuser_pk
         existing_subscription = self._get_existing_subscription(data)
         serializer = api_serializers.SubscriptionSerializer(
             data=data, instance=existing_subscription
@@ -270,53 +258,34 @@ class OptoutHistoryViewset(viewsets.ModelViewSet):
 
     def list(self, request, audienceuser_pk):
         try:
-            audience_user = (
-                m.AudienceUser
-                .objects
-                .get(pk=audienceuser_pk)
-            )
-            optout_history_qs = (
-                audience_user
-                .optout_history
-                .all()
-            )
+            audience_user = m.AudienceUser.objects.get(pk=audienceuser_pk)
+            optout_history_qs = audience_user.optout_history.all()
         except m.AudienceUser.DoesNotExist:
             raise Http404
         serializer = api_serializers.OptoutHistorySerializer(
-            optout_history_qs,
-            many=True
+            optout_history_qs, many=True
         )
         return Response(serializer.data)
 
     def retrieve(self, request, pk, audienceuser_pk):
         try:
-            audience_user = (
-                m.AudienceUser
-                .objects
-                .get(pk=audienceuser_pk)
-            )
-            single_optout_history = (
-                audience_user
-                .optout_history
-                .get(pk=pk)
-            )
+            audience_user = m.AudienceUser.objects.get(pk=audienceuser_pk)
+            single_optout_history = audience_user.optout_history.get(pk=pk)
         except (m.AudienceUser.DoesNotExist, m.OptoutHistory.DoesNotExist, ValueError):
             raise Http404
         serializer = api_serializers.OptoutHistorySerializer(
-            single_optout_history,
-            many=False
+            single_optout_history, many=False
         )
         return Response(serializer.data)
 
     def create(self, request, audienceuser_pk):
         # handles creates _and_ updates via POST
         data = copy.deepcopy(request.data)
-        data['audience_user'] = audienceuser_pk
+        data["audience_user"] = audienceuser_pk
         # existing_optout_history = self._get_existing_subscription(data)
         existing_optout_history = None
         serializer = api_serializers.OptoutHistorySerializer(
-            data=data,
-            instance=existing_optout_history
+            data=data, instance=existing_optout_history
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -348,8 +317,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = api_serializers.ProductSerializer
 
     def get_queryset(self):
-        queryset = m.Product.objects.all().prefetch_related('subtypes', 'topics')
-        slug = self.request.query_params.get('slug', None)
+        queryset = m.Product.objects.all().prefetch_related("subtypes", "topics")
+        slug = self.request.query_params.get("slug", None)
         if slug:
             queryset = queryset.filter(slug=slug)
         return queryset
@@ -391,28 +360,25 @@ class ProductActionsViewset(viewsets.ModelViewSet):
     @staticmethod
     def _get_existing_product_action(data):
         try:
-            audience_user = m.AudienceUser.objects.get(pk=data.get('audienceuser_pk'))
-            product = m.Product.objects.get(slug=data.get('product'))
-            action_type = data.get('type')
+            audience_user = m.AudienceUser.objects.get(pk=data.get("audienceuser_pk"))
+            product = m.Product.objects.get(slug=data.get("product"))
+            action_type = data.get("type")
             return m.ProductAction.objects.get(
                 audience_user=audience_user, product=product, type=action_type
             )
         except (
-                m.AudienceUser.DoesNotExist,
-                m.Product.DoesNotExist,
-                m.ProductAction.DoesNotExist,
-                ValueError
+            m.AudienceUser.DoesNotExist,
+            m.Product.DoesNotExist,
+            m.ProductAction.DoesNotExist,
+            ValueError,
         ):
             return None
 
     def list(self, request, audienceuser_pk):
         try:
             queryset = (
-                m.AudienceUser
-                .objects
-                .get(pk=audienceuser_pk)
-                .product_actions
-                .select_related("product")
+                m.AudienceUser.objects.get(pk=audienceuser_pk)
+                .product_actions.select_related("product")
                 .prefetch_related("details", "product__subtypes", "product__topics")
                 .all()
             )
@@ -424,11 +390,8 @@ class ProductActionsViewset(viewsets.ModelViewSet):
     def retrieve(self, request, pk, audienceuser_pk):
         try:
             pa = (
-                m.AudienceUser
-                .objects
-                .get(pk=audienceuser_pk)
-                .product_actions
-                .select_related("product")
+                m.AudienceUser.objects.get(pk=audienceuser_pk)
+                .product_actions.select_related("product")
                 .prefetch_related("details", "product__subtypes", "product__topics")
                 .get(pk=pk)
             )
@@ -440,7 +403,7 @@ class ProductActionsViewset(viewsets.ModelViewSet):
     def create(self, request, audienceuser_pk):
         # handles creates _and_ updates via POST
         data = copy.deepcopy(request.data)
-        data['audienceuser_pk'] = audienceuser_pk
+        data["audienceuser_pk"] = audienceuser_pk
         existing_action = self._get_existing_product_action(data)
         serializer = api_serializers.ProductActionSerializer(
             data=data, instance=existing_action
@@ -448,7 +411,9 @@ class ProductActionsViewset(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return_status = status.HTTP_200_OK if existing_action else status.HTTP_201_CREATED
+        return_status = (
+            status.HTTP_200_OK if existing_action else status.HTTP_201_CREATED
+        )
         return Response(serializer.data, status=return_status)
 
     def update(self, request, pk, audienceuser_pk):

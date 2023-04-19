@@ -10,15 +10,17 @@ from django.db.models import Q
 def add_groups(apps, schema_editor):
     # Hacky way to ensure that permissions are added by this point. See:
     # https://code.djangoproject.com/ticket/23422
-    emit_post_migrate_signal(verbosity=0, interactive=False, db=schema_editor.connection.alias)
+    emit_post_migrate_signal(
+        verbosity=0, interactive=False, db=schema_editor.connection.alias
+    )
 
     Group = apps.get_model("auth", "Group")
     Permission = apps.get_model("auth", "Permission")
 
     perms = Permission.objects.filter(
-        Q(content_type__app_label="auth", content_type__model="group") |
-        Q(content_type__app_label="auth", content_type__model="user") |
-        Q(content_type__app_label="core")
+        Q(content_type__app_label="auth", content_type__model="group")
+        | Q(content_type__app_label="auth", content_type__model="user")
+        | Q(content_type__app_label="core")
     )
     group = Group.objects.create(name="Administrator")
     group.permissions.add(*perms)
@@ -32,7 +34,7 @@ def remove_groups(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0007_auto_20160223_1731'),
+        ("core", "0007_auto_20160223_1731"),
     ]
 
     operations = [

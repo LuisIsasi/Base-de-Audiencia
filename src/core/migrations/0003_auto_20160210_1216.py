@@ -10,68 +10,123 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0002_remove_audienceuser_email_hash'),
+        ("core", "0002_remove_audienceuser_email_hash"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='VarKey',
+            name="VarKey",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('key', models.CharField(help_text='Var name (may not contain spaces)', max_length=500, unique=True, validators=[core.fields.varkey_validator])),
-                ('type', models.CharField(choices=[('official', 'Official'), ('other', 'Other')], max_length=255)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "key",
+                    models.CharField(
+                        help_text="Var name (may not contain spaces)",
+                        max_length=500,
+                        unique=True,
+                        validators=[core.fields.varkey_validator],
+                    ),
+                ),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[("official", "Official"), ("other", "Other")],
+                        max_length=255,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['type', 'key'],
-                'verbose_name': 'Var',
+                "ordering": ["type", "key"],
+                "verbose_name": "Var",
             },
         ),
         migrations.AlterModelOptions(
-            name='audienceuser',
-            options={'ordering': ['email'], 'verbose_name': 'User'},
+            name="audienceuser",
+            options={"ordering": ["email"], "verbose_name": "User"},
         ),
         migrations.AlterModelOptions(
-            name='subscription',
-            options={'ordering': ['list__slug']},
+            name="subscription",
+            options={"ordering": ["list__slug"]},
         ),
         migrations.AlterField(
-            model_name='audienceuser',
-            name='email',
-            field=core.fields.NormalizedEmailField(blank=True, help_text='(Note that this field can be empty.)', max_length=500, null=True, unique=True),
+            model_name="audienceuser",
+            name="email",
+            field=core.fields.NormalizedEmailField(
+                blank=True,
+                help_text="(Note that this field can be empty.)",
+                max_length=500,
+                null=True,
+                unique=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='audienceuser',
-            name='sailthru_id',
-            field=models.CharField(blank=True, max_length=255, null=True, verbose_name='Sailthru ID'),
+            model_name="audienceuser",
+            name="sailthru_id",
+            field=models.CharField(
+                blank=True, max_length=255, null=True, verbose_name="Sailthru ID"
+            ),
         ),
         migrations.AlterField(
-            model_name='audienceuser',
-            name='vars',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=dict, validators=[core.fields.vars_jsonfield_validator]),
+            model_name="audienceuser",
+            name="vars",
+            field=django.contrib.postgres.fields.jsonb.JSONField(
+                blank=True,
+                default=dict,
+                validators=[core.fields.vars_jsonfield_validator],
+            ),
         ),
         migrations.AlterField(
-            model_name='list',
-            name='archived',
-            field=models.BooleanField(default=False, help_text='Mark the list as archived/inactive.'),
+            model_name="list",
+            name="archived",
+            field=models.BooleanField(
+                default=False, help_text="Mark the list as archived/inactive."
+            ),
         ),
         migrations.AlterField(
-            model_name='list',
-            name='sync_externally',
-            field=models.BooleanField(default=True, help_text='Sync this list with external services, _eg_ Sailthru.'),
+            model_name="list",
+            name="sync_externally",
+            field=models.BooleanField(
+                default=True,
+                help_text="Sync this list with external services, _eg_ Sailthru.",
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='slug',
-            field=core.fields.ProductSlugField(help_text='Product slug: must be all-lowercase and may optionally contain numbers; slugs cannot be changed after initial creation because they are used to update external sources like Sailthru.', max_length=500, unique=True),
+            model_name="product",
+            name="slug",
+            field=core.fields.ProductSlugField(
+                help_text="Product slug: must be all-lowercase and may optionally contain numbers; slugs cannot be changed after initial creation because they are used to update external sources like Sailthru.",
+                max_length=500,
+                unique=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='type',
-            field=models.CharField(choices=[('app', 'App'), ('asset', 'Asset'), ('event', 'Event'), ('questionnaire', 'Questionnaire')], help_text='Cannot be changed after initial creation because the product type is used to update external sources like Sailthru.', max_length=255),
+            model_name="product",
+            name="type",
+            field=models.CharField(
+                choices=[
+                    ("app", "App"),
+                    ("asset", "Asset"),
+                    ("event", "Event"),
+                    ("questionnaire", "Questionnaire"),
+                ],
+                help_text="Cannot be changed after initial creation because the product type is used to update external sources like Sailthru.",
+                max_length=255,
+            ),
         ),
         migrations.AlterField(
-            model_name='subscription',
-            name='active',
-            field=models.BooleanField(default=True, help_text='Indicates whether the user is subscribed/opted-in to the list'),
+            model_name="subscription",
+            name="active",
+            field=models.BooleanField(
+                default=True,
+                help_text="Indicates whether the user is subscribed/opted-in to the list",
+            ),
         ),
     ]

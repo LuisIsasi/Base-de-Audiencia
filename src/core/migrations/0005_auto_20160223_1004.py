@@ -8,13 +8,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_auto_20160218_1605'),
+        ("core", "0004_auto_20160218_1605"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='subscriptionlog',
-            name='action',
-            field=models.CharField(choices=[('subscribe', 'subscribe'), ('unsubscribe', 'unsubscribe'), ('trigger', 'trigger'), ('update', 'update')], max_length=255),
+            model_name="subscriptionlog",
+            name="action",
+            field=models.CharField(
+                choices=[
+                    ("subscribe", "subscribe"),
+                    ("unsubscribe", "unsubscribe"),
+                    ("trigger", "trigger"),
+                    ("update", "update"),
+                ],
+                max_length=255,
+            ),
         ),
     ]

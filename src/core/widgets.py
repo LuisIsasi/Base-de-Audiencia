@@ -26,16 +26,16 @@ class DecomposedKeyValueJSONWidget(Widget):
     add_button_label = "Add a var"
     remove_confirm_prompt_text = "Remove var?"
 
-    field_prefix = 'decomposedkeyvaluejsonwidget'
+    field_prefix = "decomposedkeyvaluejsonwidget"
 
-    dupe_key_mangling_token = '_DUPLICATE_VAR_'
-    dupe_key_mangling_regex = re.compile(r'^.*{}(\d+)'.format(dupe_key_mangling_token))
+    dupe_key_mangling_token = "_DUPLICATE_VAR_"
+    dupe_key_mangling_regex = re.compile(r"^.*{}(\d+)".format(dupe_key_mangling_token))
 
-    template_path = 'widgets/decomposed-key-value-json-widget.html'
+    template_path = "widgets/decomposed-key-value-json-widget.html"
 
     class Media:
-        css = {'all': ('core/admin/css/decomposed-key-value-json-widget.css',)}
-        js = ('core/admin/js/decomposed-key-value-json-widget.js',)
+        css = {"all": ("core/admin/css/decomposed-key-value-json-widget.css",)}
+        js = ("core/admin/js/decomposed-key-value-json-widget.js",)
 
     def render(self, name, value, attrs=None):
         # this is a bad hack to deal with a bug in Django 1.9 -- see:
@@ -68,30 +68,41 @@ class DecomposedKeyValueJSONWidget(Widget):
             has_spaces = len(k.split()) > 1
 
             has_error = is_reserved or has_spaces or duplicate_key
-            rows.append({
-                "key": k,
-                "val": val,
-                "pair_id": str(i),
-                "duplicate_key": duplicate_key,
-                "has_spaces": has_spaces,
-                "is_reserved": is_reserved,
-                "has_error": has_error,
-            })
+            rows.append(
+                {
+                    "key": k,
+                    "val": val,
+                    "pair_id": str(i),
+                    "duplicate_key": duplicate_key,
+                    "has_spaces": has_spaces,
+                    "is_reserved": is_reserved,
+                    "has_error": has_error,
+                }
+            )
 
         template = get_template(self.template_path)
-        return template.render({
-            "rows": rows,
-            "field": name,
-            "prefix": self.field_prefix,
-            "add_button_label": self.add_button_label,
-            "remove_confirm_prompt_text": self.remove_confirm_prompt_text
-        })
+        return template.render(
+            {
+                "rows": rows,
+                "field": name,
+                "prefix": self.field_prefix,
+                "add_button_label": self.add_button_label,
+                "remove_confirm_prompt_text": self.remove_confirm_prompt_text,
+            }
+        )
 
     def value_from_datadict(self, data, files, name):
-        pair_ids = sorted(list(set([
-            x.split('_')[-1][1:-1] for x in data.keys()
-            if x.startswith("{}_".format(self.field_prefix))
-        ])))
+        pair_ids = sorted(
+            list(
+                set(
+                    [
+                        x.split("_")[-1][1:-1]
+                        for x in data.keys()
+                        if x.startswith("{}_".format(self.field_prefix))
+                    ]
+                )
+            )
+        )
 
         ret = {}
 

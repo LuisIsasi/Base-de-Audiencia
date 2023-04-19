@@ -16,10 +16,14 @@ class MockedSailthruClient(object):
             return 418
 
         def get_error(self):
-            return type('Foo', (), {
-                'get_error_code': lambda: self.response_error_code,
-                'get_message': lambda: self.response_error_message,
-            })
+            return type(
+                "Foo",
+                (),
+                {
+                    "get_error_code": lambda: self.response_error_code,
+                    "get_message": lambda: self.response_error_message,
+                },
+            )
 
     def __init__(self):
         self.api_post_return_value = self.MockedResponse()

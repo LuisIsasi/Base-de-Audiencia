@@ -2,7 +2,7 @@ from .errors import ConversionError
 
 
 class AudienceUserToSailthruDelete(object):
-    merge_user_email = 'deleted.user@govexec.com'
+    merge_user_email = "deleted.user@govexec.com"
 
     def __init__(self, user):
         self.user = user
@@ -10,23 +10,25 @@ class AudienceUserToSailthruDelete(object):
     def convert(self):
         if self.user.email:
             id_val = self.user.email
-            key = 'email'
+            key = "email"
         elif self.user.sailthru_id:
             id_val = self.user.sailthru_id
-            key = 'sid'
+            key = "sid"
         else:
-            raise ConversionError("A way to identify the user with Sailthru is required.")
+            raise ConversionError(
+                "A way to identify the user with Sailthru is required."
+            )
 
         data = {
-            'id': id_val,
-            'key': key,
-            'keys': {
-                'email': self.merge_user_email,
+            "id": id_val,
+            "key": key,
+            "keys": {
+                "email": self.merge_user_email,
             },
-            'fields': {
-                'keys': 1,
+            "fields": {
+                "keys": 1,
             },
-            'keysconflict': 'merge'
+            "keysconflict": "merge",
         }
 
         return data

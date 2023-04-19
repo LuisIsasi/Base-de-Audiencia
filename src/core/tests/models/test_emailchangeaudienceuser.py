@@ -5,12 +5,11 @@ from core.models import EmailChangeAudienceUser
 
 
 class UserTestCase(TestCase):
-
     def test_qs(self):
-        user = mommy.make('core.AudienceUser', email='')
+        user = mommy.make("core.AudienceUser", email="")
         self.assertEqual(EmailChangeAudienceUser.objects.count(), 0)
-        user = mommy.make('core.AudienceUser', email=None)
+        user = mommy.make("core.AudienceUser", email=None)
         self.assertEqual(EmailChangeAudienceUser.objects.count(), 0)
 
-        user = mommy.make('core.AudienceUser', email='a@a.com')
+        user = mommy.make("core.AudienceUser", email="a@a.com")
         self.assertEqual(EmailChangeAudienceUser.objects.count(), 1)

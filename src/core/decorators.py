@@ -20,7 +20,7 @@ class throttle(object):
         parts = chain(
             [func.__name__],
             args,
-            ["{}::{}".format(key, value) for key, value in kwargs.items()]
+            ["{}::{}".format(key, value) for key, value in kwargs.items()],
         )
         return "::".join(map(str, parts))
 
@@ -54,7 +54,9 @@ class throttle(object):
                 msg = "Throttle %s: Task %s already queued--nothing to do (lock %s already exists)."
                 logger.debug(msg, task.request.id, task.name, queued_task_lock)
             else:
-                celery_app.send_task(task.name, countdown=delay, args=args, kwargs=kwargs)
+                celery_app.send_task(
+                    task.name, countdown=delay, args=args, kwargs=kwargs
+                )
                 msg = "Throttle %s: Task %s queued to run after %d seconds (lock %s added)."
                 logger.debug(msg, task.request.id, task.name, delay, queued_task_lock)
 

@@ -29,7 +29,7 @@ class SailthruErrors(object):
     UNABLE_TO_DELETE_ALREADY_SENT = 41
     INVALID_UTF_8_CHARACTERS_FOR_FIELD_FIELD_NAME = 42
     OTHER_ERROR = 99
-    UNABLE_TO_STREAM = 'XX'
+    UNABLE_TO_STREAM = "XX"
 
     MESSAGES = {
         UNSUPPORTED_HTTPS_METHOD: {
@@ -149,14 +149,14 @@ class SailthruErrors(object):
     @classmethod
     def get_short_message(cls, error_code):
         try:
-            return cls.MESSAGES[error_code]['short-msg']
+            return cls.MESSAGES[error_code]["short-msg"]
         except KeyError:
             return cls.SHORT_MESSAGE_ERROR_MSG.format(error_code)
 
     @classmethod
     def get_long_message(cls, error_code):
         try:
-            return cls.MESSAGES[error_code]['long-msg']
+            return cls.MESSAGES[error_code]["long-msg"]
         except KeyError:
             return cls.LONG_MESSAGE_ERROR_MSG.format(error_code)
 
@@ -171,9 +171,9 @@ class SailthruErrors(object):
         error_full_description = error_short_description + ": " + error_long_description
 
         data = {
-            'code': error_code,
-            'message': error_message,
-            'description': error_full_description,
-            'response status': sailthru_response.get_status_code(),
+            "code": error_code,
+            "message": error_message,
+            "description": error_full_description,
+            "response status": sailthru_response.get_status_code(),
         }
         return data

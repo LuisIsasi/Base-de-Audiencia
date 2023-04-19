@@ -11,18 +11,33 @@ import sailthru_sync.validators
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0009_merge'),
+        ("core", "0009_merge"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='audienceuser',
-            name='vars',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=dict, validators=[core.fields.vars_jsonfield_validator, sailthru_sync.validators.reserved_words_jsonfield_validator]),
+            model_name="audienceuser",
+            name="vars",
+            field=django.contrib.postgres.fields.jsonb.JSONField(
+                blank=True,
+                default=dict,
+                validators=[
+                    core.fields.vars_jsonfield_validator,
+                    sailthru_sync.validators.reserved_words_jsonfield_validator,
+                ],
+            ),
         ),
         migrations.AlterField(
-            model_name='varkey',
-            name='key',
-            field=models.CharField(help_text='Var name (may not contain spaces)', max_length=500, unique=True, validators=[core.fields.varkey_validator, sailthru_sync.validators.reserved_words_validator]),
+            model_name="varkey",
+            name="key",
+            field=models.CharField(
+                help_text="Var name (may not contain spaces)",
+                max_length=500,
+                unique=True,
+                validators=[
+                    core.fields.varkey_validator,
+                    sailthru_sync.validators.reserved_words_validator,
+                ],
+            ),
         ),
     ]

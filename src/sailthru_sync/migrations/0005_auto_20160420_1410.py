@@ -6,24 +6,26 @@ from django.db import migrations
 
 
 def add_groups(apps, schema_editor):
-    Group = apps.get_model('auth', 'Group')
+    Group = apps.get_model("auth", "Group")
 
-    Cron = apps.get_model('djcelery', 'CrontabSchedule')
-    PeriodicTask = apps.get_model('djcelery', 'PeriodicTask')
+    Cron = apps.get_model("djcelery", "CrontabSchedule")
+    PeriodicTask = apps.get_model("djcelery", "PeriodicTask")
 
-    NotificationGroup = apps.get_model('sailthru_sync', 'SyncFailureNotificationGroup')
+    NotificationGroup = apps.get_model("sailthru_sync", "SyncFailureNotificationGroup")
 
-    auth_group = Group.objects.create(name='Sailthru sync failure')
+    auth_group = Group.objects.create(name="Sailthru sync failure")
 
-    cron = Cron.objects.create(minute=5, hour="*", day_of_week="*", day_of_month="*", month_of_year="*")
+    cron = Cron.objects.create(
+        minute=5, hour="*", day_of_week="*", day_of_month="*", month_of_year="*"
+    )
     periodic_task = PeriodicTask.objects.create(
-        name='Notify on new Sailthru sync failures.',
-        task='sailthru_sync.tasks.send_sync_failure_notifications',
+        name="Notify on new Sailthru sync failures.",
+        task="sailthru_sync.tasks.send_sync_failure_notifications",
         enabled=True,
         crontab=cron,
     )
 
-    invalid_email = '11'
+    invalid_email = "11"
     NotificationGroup.objects.create(
         interested_group=auth_group,
         notification_task=periodic_task,
@@ -32,10 +34,10 @@ def add_groups(apps, schema_editor):
 
 
 def remove_groups(apps, schema_editor):
-    Group = apps.get_model('auth', 'Group')
-    NotificationGroup = apps.get_model('sailthru_sync', 'SyncFailureNotificationGroup')
+    Group = apps.get_model("auth", "Group")
+    NotificationGroup = apps.get_model("sailthru_sync", "SyncFailureNotificationGroup")
 
-    auth_group = Group.objects.filter(name='Sailthru sync failure')
+    auth_group = Group.objects.filter(name="Sailthru sync failure")
     notification_groups = NotificationGroup.objects.filter(interested_group=auth_group)
 
     for g in notification_groups:
@@ -48,7 +50,7 @@ def remove_groups(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sailthru_sync', '0004_syncfailurenotificationgroup'),
+        ("sailthru_sync", "0004_syncfailurenotificationgroup"),
     ]
 
     operations = [

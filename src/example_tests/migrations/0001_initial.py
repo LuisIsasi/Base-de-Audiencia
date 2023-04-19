@@ -9,21 +9,28 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='TestQuestionnaire',
+            name="TestQuestionnaire",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-                ('slug', models.SlugField(unique=True)),
-                ('questions_per_page', models.IntegerField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, unique=True)),
+                ("slug", models.SlugField(unique=True)),
+                ("questions_per_page", models.IntegerField()),
             ],
             options={
-                'verbose_name_plural': 'test questionnaires',
-                'verbose_name': 'test questionnaire',
+                "verbose_name_plural": "test questionnaires",
+                "verbose_name": "test questionnaire",
             },
         ),
     ]

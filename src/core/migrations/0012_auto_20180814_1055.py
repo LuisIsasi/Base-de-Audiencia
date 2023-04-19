@@ -10,31 +10,65 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0011_auto_20180726_1558'),
+        ("core", "0011_auto_20180726_1558"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='OptoutHistory',
+            name="OptoutHistory",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sailthru_optout', models.CharField(choices=[('none', 'None'), ('all', 'Optout (All)'), ('basic', 'Optout (Basic)')], max_length=40, null=True)),
-                ('comment', models.TextField(help_text='Explanatory supporting text.')),
-                ('created_date', models.DateTimeField(auto_now_add=True)),
-                ('effective_date', models.DateTimeField(default=django.utils.timezone.now)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "sailthru_optout",
+                    models.CharField(
+                        choices=[
+                            ("none", "None"),
+                            ("all", "Optout (All)"),
+                            ("basic", "Optout (Basic)"),
+                        ],
+                        max_length=40,
+                        null=True,
+                    ),
+                ),
+                ("comment", models.TextField(help_text="Explanatory supporting text.")),
+                ("created_date", models.DateTimeField(auto_now_add=True)),
+                (
+                    "effective_date",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
             ],
             options={
-                'ordering': ['-effective_date'],
+                "ordering": ["-effective_date"],
             },
         ),
         migrations.AddField(
-            model_name='audienceuser',
-            name='sailthru_optout',
-            field=models.CharField(choices=[('none', 'None'), ('all', 'Optout (All)'), ('basic', 'Optout (Basic)')], max_length=40, null=True),
+            model_name="audienceuser",
+            name="sailthru_optout",
+            field=models.CharField(
+                choices=[
+                    ("none", "None"),
+                    ("all", "Optout (All)"),
+                    ("basic", "Optout (Basic)"),
+                ],
+                max_length=40,
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='optouthistory',
-            name='audience_user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='optout_history', to='core.AudienceUser'),
+            model_name="optouthistory",
+            name="audience_user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="optout_history",
+                to="core.AudienceUser",
+            ),
         ),
     ]

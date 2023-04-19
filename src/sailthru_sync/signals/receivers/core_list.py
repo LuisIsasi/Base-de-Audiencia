@@ -1,14 +1,14 @@
-#from core import models as core_models
-#from django.db.models import Q
-#from django.db.models.signals import post_save, pre_save
-#from django.db.transaction import on_commit
-#from django.dispatch import receiver
+# from core import models as core_models
+# from django.db.models import Q
+# from django.db.models.signals import post_save, pre_save
+# from django.db.transaction import on_commit
+# from django.dispatch import receiver
 #
-#from ...tasks import sync_user_basic
+# from ...tasks import sync_user_basic
 #
 #
-#@receiver(pre_save, sender=core_models.List, dispatch_uid='sailthru_sync::signals::list_pre_save')
-#def list_pre_save(sender, **kwargs):
+# @receiver(pre_save, sender=core_models.List, dispatch_uid='sailthru_sync::signals::list_pre_save')
+# def list_pre_save(sender, **kwargs):
 #    instance = kwargs['instance']
 #    instance._sailthru_sync_can_sync = False
 #    if not instance.pk:
@@ -19,8 +19,8 @@
 #    )
 #
 #
-#@receiver(post_save, sender=core_models.List, dispatch_uid='sailthru_sync::signals::list_post_save')
-#def list_post_save(sender, **kwargs):
+# @receiver(post_save, sender=core_models.List, dispatch_uid='sailthru_sync::signals::list_post_save')
+# def list_post_save(sender, **kwargs):
 #    instance = kwargs['instance']
 #    if not instance._sailthru_sync_can_sync:
 #        return

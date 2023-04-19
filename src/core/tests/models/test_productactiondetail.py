@@ -4,4 +4,4 @@ from model_mommy import mommy
 
 
 class ProductActionDetailTestCase(TestCase):
-    pass  #TODO . . .
+    pass  # TODO . . .

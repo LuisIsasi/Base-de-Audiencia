@@ -8,29 +8,53 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0013_auto_20180828_1036'),
+        ("core", "0013_auto_20180828_1036"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='athenacontentmetadata',
-            name='date_published',
-            field=models.DateTimeField(blank=True, help_text='The date and time the post went live.', null=True, verbose_name='Publish date'),
+            model_name="athenacontentmetadata",
+            name="date_published",
+            field=models.DateTimeField(
+                blank=True,
+                help_text="The date and time the post went live.",
+                null=True,
+                verbose_name="Publish date",
+            ),
         ),
         migrations.AlterField(
-            model_name='audienceuser',
-            name='sailthru_optout',
-            field=models.CharField(blank=True, choices=[('none', 'None'), ('all', 'Optout (All)'), ('basic', 'Optout (Basic)'), ('blast', 'Optout (Blast)')], max_length=40, null=True),
+            model_name="audienceuser",
+            name="sailthru_optout",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("none", "None"),
+                    ("all", "Optout (All)"),
+                    ("basic", "Optout (Basic)"),
+                    ("blast", "Optout (Blast)"),
+                ],
+                max_length=40,
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='optouthistory',
-            name='sailthru_optout',
-            field=models.CharField(choices=[('none', 'None'), ('all', 'Optout (All)'), ('basic', 'Optout (Basic)'), ('blast', 'Optout (Blast)')], default='none', max_length=40),
+            model_name="optouthistory",
+            name="sailthru_optout",
+            field=models.CharField(
+                choices=[
+                    ("none", "None"),
+                    ("all", "Optout (All)"),
+                    ("basic", "Optout (Basic)"),
+                    ("blast", "Optout (Blast)"),
+                ],
+                default="none",
+                max_length=40,
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='usercontenthistory',
-            name='referrer',
+            model_name="usercontenthistory",
+            name="referrer",
             field=models.URLField(blank=True, null=True),
         ),
     ]

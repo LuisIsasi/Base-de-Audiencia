@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.formatter_class = RawTextHelpFormatter
-        parser.add_argument('--file', nargs=1, type=str)
+        parser.add_argument("--file", nargs=1, type=str)
 
     def handle(self, *args, **options):
         if not settings.SAILTHRU_SYNC_ENABLED:
@@ -33,11 +33,11 @@ class Command(BaseCommand):
                 "Cannot run because Sailthru sync is currently disabled."
             )
 
-        if not options['file']:
-            raise CommandError('--file must be specified')
+        if not options["file"]:
+            raise CommandError("--file must be specified")
 
-        with open(options['file'][0], 'r') as input_file:
-            pairs = [x.strip().split(',') for x in input_file.readlines()]
+        with open(options["file"][0], "r") as input_file:
+            pairs = [x.strip().split(",") for x in input_file.readlines()]
 
             # skip over header in first line
             for row in pairs[1:]:
@@ -63,7 +63,9 @@ class Command(BaseCommand):
 
     def _get_sync_data(self, user):
         try:
-            sync_logger.debug("Delete user (%s): converting user data to sailthru format.", str(user))
+            sync_logger.debug(
+                "Delete user (%s): converting user data to sailthru format.", str(user)
+            )
 
             converter = sync_converter.AudienceUserToSailthruDelete(user)
             return converter.convert()

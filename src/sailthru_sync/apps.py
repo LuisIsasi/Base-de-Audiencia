@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class SailthruSyncConfig(AppConfig):
-    name = 'sailthru_sync'
+    name = "sailthru_sync"
     verbose_name = "Sailthru sync"
 
     def ready(self):

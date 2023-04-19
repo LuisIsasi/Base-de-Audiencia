@@ -4,10 +4,7 @@ from sailthru.sailthru_client import SailthruClient
 
 
 def sailthru_client(request_timeout=10):
-    sc = SailthruClient(
-        settings.SAILTHRU_API_KEY,
-        settings.SAILTHRU_API_SECRET
-    )
+    sc = SailthruClient(settings.SAILTHRU_API_KEY, settings.SAILTHRU_API_SECRET)
     return sc
 
 
@@ -30,8 +27,4 @@ def compare_and_update_optout(user, email_optout):
             effective_date = timezone.now()
             comment = "Updating to match sailthru (from sailthru API response)"
 
-        user.record_optout(
-            email_optout,
-            comment,
-            effective_date=effective_date
-        )
+        user.record_optout(email_optout, comment, effective_date=effective_date)

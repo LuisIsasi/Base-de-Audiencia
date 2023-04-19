@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0014_auto_20190322_0835'),
+        ("core", "0014_auto_20190322_0835"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='usercontenthistory',
-            name='referrer',
+            model_name="usercontenthistory",
+            name="referrer",
             field=models.URLField(blank=True, max_length=500, null=True),
         ),
     ]

@@ -2,7 +2,7 @@
 
 import json
 import csv
-import datetime 
+import datetime
 
 from celery.utils.log import get_task_logger
 from django import forms
@@ -43,7 +43,7 @@ from . import models as m
 from .widgets import DecomposedKeyValueJSONWidget
 
 
-#TODO: vars history -- how/where to display
+# TODO: vars history -- how/where to display
 
 
 sync_logger = get_task_logger("sailthru_sync.tasks")
@@ -52,9 +52,15 @@ sync_logger = get_task_logger("sailthru_sync.tasks")
 class UserSourceInline(admin.TabularInline):
     can_delete = False
     extra = 0
-    fields = ("name", "timestamp",)
+    fields = (
+        "name",
+        "timestamp",
+    )
     model = m.UserSource
-    readonly_fields = ("name", "timestamp",)
+    readonly_fields = (
+        "name",
+        "timestamp",
+    )
     verbose_name_plural = "Source Signups"
 
     def has_add_permission(self, request):
@@ -67,9 +73,17 @@ class UserSourceInline(admin.TabularInline):
 class SubscriptionInline(admin.TabularInline):
     can_delete = False
     extra = 0
-    fields = ('list', 'list_type', 'active', 'subscription_log_html',)
+    fields = (
+        "list",
+        "list_type",
+        "active",
+        "subscription_log_html",
+    )
     model = m.Subscription
-    readonly_fields = ('list_type', 'subscription_log_html',)
+    readonly_fields = (
+        "list_type",
+        "subscription_log_html",
+    )
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -78,8 +92,8 @@ class SubscriptionInline(admin.TabularInline):
         return (
             super(SubscriptionInline, self)
             .get_queryset(request)
-            .select_related('list', 'audience_user')
-            .prefetch_related('log')
+            .select_related("list", "audience_user")
+            .prefetch_related("log")
         )
 
 
@@ -93,7 +107,7 @@ class ProductActionInline(admin.TabularInline):
         "type",
         "timestamp",
         "modified",
-        "details_html"
+        "details_html",
     )
 
     def has_add_permission(self, request):
@@ -106,7 +120,7 @@ class ProductActionInline(admin.TabularInline):
         return (
             super(ProductActionInline, self)
             .get_queryset(request)
-            .select_related('product')
+            .select_related("product")
             .prefetch_related("details")
         )
 
@@ -116,23 +130,21 @@ class AudienceUserForm(forms.ModelForm):
         model = m.AudienceUser
         fields = "__all__"  # this is ignored b/c fields are defined on the ModelAdmin
         help_texts = {
-            'admin_view_created_date': 'Date the user was created in the Audience Database '
-            '(post-MarkLogic transition)',
-            'admin_view_modified_date': 'Date the user was modified in the Audience Database '
-            '(post-MarkLogic transition)',
+            "admin_view_created_date": "Date the user was created in the Audience Database "
+            "(post-MarkLogic transition)",
+            "admin_view_modified_date": "Date the user was modified in the Audience Database "
+            "(post-MarkLogic transition)",
         }
 
     def clean_vars(self):
-        cleaned_data = self.cleaned_data.get('vars', {})
+        cleaned_data = self.cleaned_data.get("vars", {})
         if cleaned_data:
             dupe_keys = [
-                x for x in cleaned_data.keys()
+                x
+                for x in cleaned_data.keys()
                 if DecomposedKeyValueJSONWidget.dupe_key_mangling_regex.match(x)
             ]
-            multi_word_keys = [
-                x for x in cleaned_data.keys()
-                if len(x.split()) > 1
-            ]
+            multi_word_keys = [x for x in cleaned_data.keys() if len(x.split()) > 1]
             errors = []
             if dupe_keys:
                 errors.append("You attempted to add a var that already exists.")
@@ -153,7 +165,7 @@ class AudienceUserForm(forms.ModelForm):
 class DeleteAudienceUserAdminForm(forms.ModelForm):
     class Meta:
         model = m.AudienceUser
-        fields = ('id',)
+        fields = ("id",)
 
     def clean(self, *args, **kwargs):
         cleaned = super().clean(*args, **kwargs)
@@ -168,7 +180,10 @@ class DeleteAudienceUserAdminForm(forms.ModelForm):
 
     def _get_sync_data(self):
         try:
-            sync_logger.debug("Delete user (%s): converting user data to sailthru format.", str(self.instance.pk))
+            sync_logger.debug(
+                "Delete user (%s): converting user data to sailthru format.",
+                str(self.instance.pk),
+            )
 
             converter = sync_converter.AudienceUserToSailthruDelete(self.instance)
             return converter.convert()
@@ -182,7 +197,9 @@ class DeleteAudienceUserAdminForm(forms.ModelForm):
 
     def _sync_to_sailthru(self, data):
         try:
-            sync_logger.debug("Delete user (%s): Posting data to sailthru.", str(self.instance.pk))
+            sync_logger.debug(
+                "Delete user (%s): Posting data to sailthru.", str(self.instance.pk)
+            )
             response = sailthru_client().api_post("user", data)
             return response
         except Exception as e:
@@ -202,17 +219,21 @@ class DeleteAudienceUserAdminForm(forms.ModelForm):
             if can_ignore:
                 return
             msg = "Sailthru rejected request to delete user."
-            failure = sync_models.SyncFailure.objects.from_sailthru_error_response(msg, self.instance, response)
+            failure = sync_models.SyncFailure.objects.from_sailthru_error_response(
+                msg, self.instance, response
+            )
             sync_logger.error("Delete user (%s): " + msg, str(self.instance.pk))
 
             self._delete_sync_lock()
             raise forms.ValidationError(failure.get_admin_anchor())
         try:
             response_data = response.get_body()
-            response_data['keys']['email']
+            response_data["keys"]["email"]
         except KeyError:
             msg = "Sailthru response missing expected values."
-            failure = sync_models.SyncFailure.objects.from_sailthru_response(msg, self.instance, response)
+            failure = sync_models.SyncFailure.objects.from_sailthru_response(
+                msg, self.instance, response
+            )
             sync_logger.error("Delete user (%s): " + msg, str(self.instance.pk))
 
             self._delete_sync_lock()
@@ -232,63 +253,72 @@ class DeleteAudienceUserAdminForm(forms.ModelForm):
         except m.AudienceUser.DoesNotExist:
             raise forms.ValidationError("This user has already been deleted.")
         except IntegrityError:
-            raise forms.ValidationError("This user is currently locked--preventing syncing with Sailthru.")
+            raise forms.ValidationError(
+                "This user is currently locked--preventing syncing with Sailthru."
+            )
         self._sync_lock = lock
 
 
 class AudienceUserAdmin(admin.ModelAdmin):
     class Media:
         css = {
-            'all': (
-                'core/admin/css/audienceuser.css',
-            ),
+            "all": ("core/admin/css/audienceuser.css",),
         }
 
     form = AudienceUserForm
-    formfield_overrides = {JSONField: {'widget': DecomposedKeyValueJSONWidget}}
-    inlines = (SubscriptionInline, ProductActionInline, UserSourceInline,)
-    list_display = ['email', 'modified', 'list_view_sailthru_link']
-    search_fields = ('email',)
+    formfield_overrides = {JSONField: {"widget": DecomposedKeyValueJSONWidget}}
+    inlines = (
+        SubscriptionInline,
+        ProductActionInline,
+        UserSourceInline,
+    )
+    list_display = ["email", "modified", "list_view_sailthru_link"]
+    search_fields = ("email",)
 
     def get_fields(self, request, obj=None):
-        include_fields = ['email', 'sailthru_id', 'vars', 'omeda_id']
+        include_fields = ["email", "sailthru_id", "vars", "omeda_id"]
         if obj:
-            include_fields = ['readonly_sailthru_optout', ] + include_fields
+            include_fields = [
+                "readonly_sailthru_optout",
+            ] + include_fields
             include_fields.extend(
-                ['admin_view_created_date', 'admin_view_modified_date', ]
+                [
+                    "admin_view_created_date",
+                    "admin_view_modified_date",
+                ]
             )
         return include_fields
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return (
-                'readonly_sailthru_optout',
-                'email',
-                'omeda_id',
-                'admin_view_created_date',
-                'admin_view_modified_date',
+                "readonly_sailthru_optout",
+                "email",
+                "omeda_id",
+                "admin_view_created_date",
+                "admin_view_modified_date",
             )
-        return ('omeda_id',)
+        return ("omeda_id",)
 
     def readonly_sailthru_optout(self, instance):
         """
         TODO: add link to optout management here (and an actual feature to support it)
         """
         if instance.sailthru_optout == m.AudienceUser.OPTOUT_NONE:
-            css_class = 'audb-good'
+            css_class = "audb-good"
         else:
-            css_class = 'audb-bad'
+            css_class = "audb-bad"
 
-        return mark_safe('<span class="{}">{}</span>'.format(
-            css_class,
-            instance.optout_display_name
-        ))
-    readonly_sailthru_optout.short_description = 'Sailthru optout'
+        return mark_safe(
+            '<span class="{}">{}</span>'.format(css_class, instance.optout_display_name)
+        )
+
+    readonly_sailthru_optout.short_description = "Sailthru optout"
 
     def get_actions(self, request):
         actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
+        if "delete_selected" in actions:
+            del actions["delete_selected"]
         return actions
 
     def save_formset(self, request, form, formset, change):
@@ -299,32 +329,34 @@ class AudienceUserAdmin(admin.ModelAdmin):
         for instance in instances:
             if isinstance(instance, m.Subscription):
                 instance.log_override = {
-                    'action': 'update',
-                    'comment': '{} via Admin by {}'.format(
+                    "action": "update",
+                    "comment": "{} via Admin by {}".format(
                         "subscribed" if instance.active else "unsubscribed",
-                        request.user
-                    )
+                        request.user,
+                    ),
                 }
             instance.save()
         formset.save_m2m()
 
-    def add_view(self, request, form_url='', extra_context=None):
+    def add_view(self, request, form_url="", extra_context=None):
         extra_context = extra_context or {}
-        extra_context['vars_lookup'] = self._get_vars_lookup()
+        extra_context["vars_lookup"] = self._get_vars_lookup()
         return super(AudienceUserAdmin, self).add_view(
             request, form_url, extra_context=extra_context
         )
 
-    def change_view(self, request, object_id, form_url='', extra_context=None):
+    def change_view(self, request, object_id, form_url="", extra_context=None):
         extra_context = extra_context or {}
-        extra_context['vars_lookup'] = self._get_vars_lookup()
+        extra_context["vars_lookup"] = self._get_vars_lookup()
         return super(AudienceUserAdmin, self).change_view(
             request, object_id, form_url, extra_context=extra_context
         )
 
     @staticmethod
     def _get_vars_lookup():
-        return json.dumps([{'key': x.key, 'type': x.type} for x in m.VarKey.objects.all()])
+        return json.dumps(
+            [{"key": x.key, "type": x.type} for x in m.VarKey.objects.all()]
+        )
 
     @csrf_protect_m
     def delete_view(self, request, object_id, extra_context=None):
@@ -333,14 +365,16 @@ class AudienceUserAdmin(admin.ModelAdmin):
         if not request.POST:
             return super().delete_view(request, object_id, extra_context)
 
-        #----------------------------------------------------------------------
+        # ----------------------------------------------------------------------
         #  Start copy pasta (with minor changes)
 
         opts = self.model._meta
 
         to_field = request.POST.get(TO_FIELD_VAR)
         if to_field and not self.to_field_allowed(request, to_field):
-            raise DisallowedModelAdminToField("The field %s cannot be referenced." % to_field)  # why does django prefer this formatting?
+            raise DisallowedModelAdminToField(
+                "The field %s cannot be referenced." % to_field
+            )  # why does django prefer this formatting?
 
         obj = self.get_object(request, unquote(object_id), to_field)
 
@@ -349,24 +383,26 @@ class AudienceUserAdmin(admin.ModelAdmin):
 
         if obj is None:
             raise Http404(
-                ugettext('%(name)s object with primary key %(key)r does not exist.') %
-                {'name': force_text(opts.verbose_name), 'key': escape(object_id)}
+                ugettext("%(name)s object with primary key %(key)r does not exist.")
+                % {"name": force_text(opts.verbose_name), "key": escape(object_id)}
             )
 
         using = router.db_for_write(self.model)
 
         # Populate deleted_objects, a data structure of all related objects that
         # will also be deleted.
-        _, _, perms_needed, _ = get_deleted_objects([obj], opts, request.user, self.admin_site, using)
+        _, _, perms_needed, _ = get_deleted_objects(
+            [obj], opts, request.user, self.admin_site, using
+        )
 
         #  End copy pasta
-        #----------------------------------------------------------------------
+        # ----------------------------------------------------------------------
 
         if perms_needed:
             raise PermissionDenied
 
         if obj.email or obj.sailthru_id:
-            form = DeleteAudienceUserAdminForm({'id': obj.pk}, instance=obj)
+            form = DeleteAudienceUserAdminForm({"id": obj.pk}, instance=obj)
             if not form.is_valid():
                 raise PermissionDenied
         return super().delete_view(request, object_id, extra_context)
@@ -375,10 +411,10 @@ class AudienceUserAdmin(admin.ModelAdmin):
 class EmailChangeAudienceUserAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].help_text = 'Enter new email for user.'
+        self.fields["email"].help_text = "Enter new email for user."
 
     def clean_email(self, *args, **kwargs):
-        email = self.cleaned_data['email']
+        email = self.cleaned_data["email"]
         try:
             email = email.strip()
         except:
@@ -391,18 +427,18 @@ class EmailChangeAudienceUserAdminForm(forms.ModelForm):
 
     def clean(self, *args, **kwargs):
         cleaned = super().clean(*args, **kwargs)
-        if 'email' not in cleaned:
+        if "email" not in cleaned:
             return cleaned
         if not settings.SAILTHRU_SYNC_ENABLED:
             return cleaned
 
         self._obtain_sync_lock()
 
-        new_user = self._meta.model(email=cleaned['email'])
+        new_user = self._meta.model(email=cleaned["email"])
         st_data = self._get_sync_data(self.instance, new_user)
         st_response = self._sync_to_sailthru(st_data)
         if self._re_request_necessary(st_response):
-            st_data = self._get_new_user_sync_data(self.instance, cleaned['email'])
+            st_data = self._get_new_user_sync_data(self.instance, cleaned["email"])
             st_response = self._sync_to_sailthru(st_data)
         self._check_response_ok(st_response)
         self._verify_sid(st_response, new_user.sailthru_id)
@@ -422,9 +458,14 @@ class EmailChangeAudienceUserAdminForm(forms.ModelForm):
 
     def _get_sync_data(self, old_user, new_user):
         try:
-            sync_logger.debug("Change user (%s) email: converting user data to Sailthru format.", str(self.instance.pk))
+            sync_logger.debug(
+                "Change user (%s) email: converting user data to Sailthru format.",
+                str(self.instance.pk),
+            )
 
-            converter = sync_converter.EmailChangeAudienceUserToSailthru(old_user, new_user)
+            converter = sync_converter.EmailChangeAudienceUserToSailthru(
+                old_user, new_user
+            )
             st_data = converter.convert()
             return st_data
         except ConversionError as e:
@@ -437,7 +478,10 @@ class EmailChangeAudienceUserAdminForm(forms.ModelForm):
 
     def _get_new_user_sync_data(self, user, new_email):
         try:
-            sync_logger.debug("Change user (%s) email: converting user data to Sailthru format.", str(self.instance.pk))
+            sync_logger.debug(
+                "Change user (%s) email: converting user data to Sailthru format.",
+                str(self.instance.pk),
+            )
 
             old_email = user.email
             user.email = new_email
@@ -457,7 +501,10 @@ class EmailChangeAudienceUserAdminForm(forms.ModelForm):
 
     def _sync_to_sailthru(self, data):
         try:
-            sync_logger.debug("Change user (%s) email: Posting data to Sailthru.", str(self.instance.pk))
+            sync_logger.debug(
+                "Change user (%s) email: Posting data to Sailthru.",
+                str(self.instance.pk),
+            )
 
             response = sailthru_client().api_post("user", data)
             return response
@@ -486,27 +533,33 @@ class EmailChangeAudienceUserAdminForm(forms.ModelForm):
     def _check_response_ok(self, response):
         if not response.is_ok():
             msg = "Sailthru rejected request to change email."
-            failure = sync_models.SyncFailure.objects.from_sailthru_error_response(msg, self.instance, response)
+            failure = sync_models.SyncFailure.objects.from_sailthru_error_response(
+                msg, self.instance, response
+            )
             sync_logger.debug("Change user (%s) email: " + msg, str(self.instance.pk))
 
             self._delete_sync_lock()
             raise forms.ValidationError(failure.get_admin_anchor())
         try:
             response_data = response.get_body()
-            response_data['keys']['email']
+            response_data["keys"]["email"]
         except KeyError:
             msg = "Sailthru response missing expected values."
-            failure = sync_models.SyncFailure.objects.from_sailthru_response(msg, self.instance, response)
+            failure = sync_models.SyncFailure.objects.from_sailthru_response(
+                msg, self.instance, response
+            )
             sync_logger.debug("Change user (%s) email: " + msg, str(self.instance.pk))
 
             self._delete_sync_lock()
             raise forms.ValidationError(failure.get_admin_anchor())
 
     def _verify_sid(self, response, sid):
-        st_sid = response.get_body()['keys']['sid']
+        st_sid = response.get_body()["keys"]["sid"]
         if sid and sid != st_sid:
             msg = "Sailthru changed Sailthru ID from {} to {}.".format(sid, st_sid)
-            failure = sync_models.SyncFailure.objects.from_sailthru_response(msg, self.instance, response)
+            failure = sync_models.SyncFailure.objects.from_sailthru_response(
+                msg, self.instance, response
+            )
             sync_logger.debug("Change user (%s) email: " + msg, str(self.instance.pk))
 
             self._delete_sync_lock()
@@ -526,18 +579,16 @@ class EmailChangeAudienceUserAdminForm(forms.ModelForm):
         except m.AudienceUser.DoesNotExist:
             raise forms.ValidationError("This user has been deleted.")
         except IntegrityError:
-            raise forms.ValidationError("This user is currently locked--preventing syncing with Sailthru.")
+            raise forms.ValidationError(
+                "This user is currently locked--preventing syncing with Sailthru."
+            )
         self._sync_lock = lock
 
 
 class EmailChangeAudienceUserAdmin(admin.ModelAdmin):
     form = EmailChangeAudienceUserAdminForm
-    fields = (
-        'email',
-    )
-    search_fields = (
-        'email',
-    )
+    fields = ("email",)
+    search_fields = ("email",)
 
     def get_actions(self, *args, **kwargs):
         return []
@@ -551,61 +602,78 @@ class EmailChangeAudienceUserAdmin(admin.ModelAdmin):
 
 class SubscriptionTriggerInline(admin.TabularInline):
     extra = 1
-    fk_name = 'primary_list'
+    fk_name = "primary_list"
     model = m.SubscriptionTrigger
 
 
 class ListAdmin(admin.ModelAdmin):
     formfield_overrides = {
-        models.CharField: {'widget': forms.TextInput(attrs={'size': '60'})},
+        models.CharField: {"widget": forms.TextInput(attrs={"size": "60"})},
     }
 
     inlines = (SubscriptionTriggerInline,)
 
     add_fieldsets = (
-        (None, {
-            'fields': (
-                'name',
-                'slug',
-                'type',
-                'sync_externally',
-                'no_unsubscribe',
-                'archived',
-            ),
-        }),
+        (
+            None,
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                    "type",
+                    "sync_externally",
+                    "no_unsubscribe",
+                    "archived",
+                ),
+            },
+        ),
     )
     change_fieldsets = add_fieldsets + (
-        ('Reference', {
-            'fields': ('zephyr_optout_code',)
-        }),
+        ("Reference", {"fields": ("zephyr_optout_code",)}),
     )
 
-    list_display = ['slug_edit', 'type', 'sync_externally', 'archived', 'no_unsubscribe', 'stats']
+    list_display = [
+        "slug_edit",
+        "type",
+        "sync_externally",
+        "archived",
+        "no_unsubscribe",
+        "stats",
+    ]
 
-    list_filter = ['type', 'sync_externally', 'archived', 'no_unsubscribe', ]
+    list_filter = [
+        "type",
+        "sync_externally",
+        "archived",
+        "no_unsubscribe",
+    ]
 
-    ordering = ['archived', 'type', 'slug', ]
+    ordering = [
+        "archived",
+        "type",
+        "slug",
+    ]
 
-    search_fields = ('slug',)
+    search_fields = ("slug",)
 
     class Media:
         css = {
-            'all': (
-                'core/admin/css/list.css',
-            ),
+            "all": ("core/admin/css/list.css",),
         }
 
         js = (
-            'core/admin/js/list.js',
-            'core/contrib/clipboard/dist/clipboard.min.js',
+            "core/admin/js/list.js",
+            "core/contrib/clipboard/dist/clipboard.min.js",
         )
 
     def zephyr_optout_code(self, instance):
-        params = "&amp;".join([
-            'param=st-{}'.format(quote_plus(instance.type)),
-            'display_name={}'.format(quote_plus(instance.name)),
-            'list_name={}'.format(quote_plus(instance.sailthru_list_name)),
-        ])
+        params = "&amp;".join(
+            [
+                "param=st-{}".format(quote_plus(instance.type)),
+                "display_name={}".format(quote_plus(instance.name)),
+                "list_name={}".format(quote_plus(instance.sailthru_list_name)),
+            ]
+        )
         zephyr_code = "{{optout_confirm_url + '&amp;{}'}}".format(params)
 
         markup = format_html(
@@ -627,10 +695,11 @@ class ListAdmin(admin.ModelAdmin):
               </span>
             """,
             zephyr_code=zephyr_code,
-            static_url=static('core/admin/img/clipboard.svg')
+            static_url=static("core/admin/img/clipboard.svg"),
         )
         return markup
-    zephyr_optout_code.short_description = 'Zephyr optout code'
+
+    zephyr_optout_code.short_description = "Zephyr optout code"
 
     def get_fieldsets(self, request, obj=None):
         if obj:
@@ -641,26 +710,33 @@ class ListAdmin(admin.ModelAdmin):
         if obj:
             # seems confusing to allow 'slug' or 'type' to be modifiable after create
             return self.readonly_fields + (
-                'type',
-                'slug',
-                'zephyr_optout_code',
-                'no_unsubscribe',
+                "type",
+                "slug",
+                "zephyr_optout_code",
+                "no_unsubscribe",
             )
         return self.readonly_fields
 
     def slug_edit(self, obj):
         return obj.slug
-    slug_edit.short_description = 'Slug / Edit'
+
+    slug_edit.short_description = "Slug / Edit"
 
     def get_urls(self):
         urls = super(ListAdmin, self).get_urls()
-        analyze_url = [url(r'^(?P<pk>\d+)/stats/$', self.admin_site.admin_view(self.stats_view)), ]
+        analyze_url = [
+            url(r"^(?P<pk>\d+)/stats/$", self.admin_site.admin_view(self.stats_view)),
+        ]
         return analyze_url + urls
 
     def stats_view(self, request, pk):
         list_obj = self.get_object(request, pk)
-        num_users_inactive = m.AudienceUser.objects.filter(subscriptions__list_id=pk, subscriptions__active=False).count()
-        num_users_active = m.AudienceUser.objects.filter(subscriptions__list_id=pk, subscriptions__active=True).count()
+        num_users_inactive = m.AudienceUser.objects.filter(
+            subscriptions__list_id=pk, subscriptions__active=False
+        ).count()
+        num_users_active = m.AudienceUser.objects.filter(
+            subscriptions__list_id=pk, subscriptions__active=True
+        ).count()
         list_users_total = num_users_inactive + num_users_active
 
         context = {
@@ -671,15 +747,17 @@ class ListAdmin(admin.ModelAdmin):
             "list_users_active": num_users_active,
             "list_users_inactive": num_users_inactive,
         }
-        return HttpResponse(django_render_to_string("admin/stats.html", context, request=request))
+        return HttpResponse(
+            django_render_to_string("admin/stats.html", context, request=request)
+        )
 
 
 class SubscriptionLogListFilter(admin.SimpleListFilter):
-    title = 'list'
-    parameter_name = 'list_id'
+    title = "list"
+    parameter_name = "list_id"
 
     def lookups(self, request, model_admin):
-        return [(request.GET.get('list_id', None), 'Current')]
+        return [(request.GET.get("list_id", None), "Current")]
 
     def queryset(self, request, queryset):
         return queryset.filter(subscription__list__id=self.value())
@@ -687,7 +765,9 @@ class SubscriptionLogListFilter(admin.SimpleListFilter):
 
 class SubscriptionLogTimeFilter(DateFieldListFilter):
     def __init__(self, field, request, params, *args, **kwargs):
-        super(SubscriptionLogTimeFilter, self).__init__(field, request, params, *args, **kwargs)
+        super(SubscriptionLogTimeFilter, self).__init__(
+            field, request, params, *args, **kwargs
+        )
 
         now = timezone.now()
         # When time zone support is enabled, convert "now" to the user's time
@@ -697,38 +777,54 @@ class SubscriptionLogTimeFilter(DateFieldListFilter):
 
         today = now.date()
 
-        self.links = ((
+        self.links = (
             # Last year is default
             # this is handled in the get_queryset function in SubscriptionLogAdmin.
-            (('Last Year', {})),
-            (('Last 6 Months'), {
-                self.lookup_kwarg_since: str(today - datetime.timedelta(days=(30 * 6))),
-            }),
-            (('Last Month'), {
-                self.lookup_kwarg_since: str(today - datetime.timedelta(days=30)),
-            }),
-            (('Last 7 days'), {
-                self.lookup_kwarg_since: str(today - datetime.timedelta(days=7)),
-            }),
-            (('Last 24 hours'), {
-                self.lookup_kwarg_since: str(today - datetime.timedelta(hours=24)),
-            }),
-        ))
+            (("Last Year", {})),
+            (
+                ("Last 6 Months"),
+                {
+                    self.lookup_kwarg_since: str(
+                        today - datetime.timedelta(days=(30 * 6))
+                    ),
+                },
+            ),
+            (
+                ("Last Month"),
+                {
+                    self.lookup_kwarg_since: str(today - datetime.timedelta(days=30)),
+                },
+            ),
+            (
+                ("Last 7 days"),
+                {
+                    self.lookup_kwarg_since: str(today - datetime.timedelta(days=7)),
+                },
+            ),
+            (
+                ("Last 24 hours"),
+                {
+                    self.lookup_kwarg_since: str(today - datetime.timedelta(hours=24)),
+                },
+            ),
+        )
 
 
 class SubscriptionLogOptoutType(admin.SimpleListFilter):
-    title = 'Optout Type'
-    parameter_name = 'optout_type'
+    title = "Optout Type"
+    parameter_name = "optout_type"
 
     def lookups(self, request, model_admin):
         return [
-            ('basic', 'Basic Optout'),
-            ('all', 'All Optout'),
+            ("basic", "Basic Optout"),
+            ("all", "All Optout"),
         ]
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(subscription__audience_user__sailthru_optout=self.value())
+            return queryset.filter(
+                subscription__audience_user__sailthru_optout=self.value()
+            )
         else:
             return queryset
 
@@ -740,13 +836,16 @@ class NoCountPaginator(Paginator):
     Custom pagination on the page should be added to remove the count and just show
     next and prev buttons. Check the change_list template for this.
     """
+
     @property
     def count(self):
-       return 99999999999
+        return 99999999999
 
 
 class SubscriptionLogAdmin(admin.ModelAdmin):
-    actions = ['export_as_csv',]
+    actions = [
+        "export_as_csv",
+    ]
     paginator = NoCountPaginator
     today = datetime.datetime.now().date()
     last_year = today.replace(year=today.year - 1)
@@ -755,15 +854,19 @@ class SubscriptionLogAdmin(admin.ModelAdmin):
         meta = self.model._meta
         field_names = self.list_display
 
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
         writer = csv.writer(response)
 
         writer.writerow(field_names)
         for obj in queryset:
             values = []
             for field in field_names:
-                values.append(getattr(obj, field) if hasattr(obj, field) else getattr(self, field)(obj))
+                values.append(
+                    getattr(obj, field)
+                    if hasattr(obj, field)
+                    else getattr(self, field)(obj)
+                )
             writer.writerow(values)
 
         return response
@@ -771,19 +874,19 @@ class SubscriptionLogAdmin(admin.ModelAdmin):
     export_as_csv.short_description = "Export Selected as CSV"
 
     list_display = [
-        'list_name',
-        'action',
-        'email',
-        'optout_type',
-        'comment',
-        'timestamp',
+        "list_name",
+        "action",
+        "email",
+        "optout_type",
+        "comment",
+        "timestamp",
     ]
 
     list_filter = [
-        'action', 
-        ('timestamp', SubscriptionLogTimeFilter),
+        "action",
+        ("timestamp", SubscriptionLogTimeFilter),
         SubscriptionLogOptoutType,
-        SubscriptionLogListFilter
+        SubscriptionLogListFilter,
     ]
 
     list_display_links = None
@@ -796,34 +899,35 @@ class SubscriptionLogAdmin(admin.ModelAdmin):
 
     def optout_type(self, obj):
         return obj.subscription.audience_user.sailthru_optout
-    optout_type.admin_order_field = 'subscription__audience_user__sailthru_optout'
+
+    optout_type.admin_order_field = "subscription__audience_user__sailthru_optout"
 
     def get_queryset(self, request):
-        #Only show data if list is present
-        if 'list_id' in request.GET:
+        # Only show data if list is present
+        if "list_id" in request.GET:
             return (
                 super(SubscriptionLogAdmin, self)
                 .get_queryset(request)
                 .filter(
                     timestamp__gte=self.last_year,
                 )
-                .select_related('subscription', 'subscription__audience_user')
+                .select_related("subscription", "subscription__audience_user")
             )
         else:
             return m.SubscriptionLog.objects.none()
 
-    #To remove the default delete action
+    # To remove the default delete action
     def get_actions(self, request):
         actions = super(SubscriptionLogAdmin, self).get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
+        if "delete_selected" in actions:
+            del actions["delete_selected"]
         return actions
 
     def changelist_view(self, request, extra_context=None):
         context = {
-            'list_id':request.GET.get('list_id', None),
-            'date':self.last_year,
-            'page':int(request.GET.get('p', 0))
+            "list_id": request.GET.get("list_id", None),
+            "date": self.last_year,
+            "page": int(request.GET.get("p", 0)),
         }
         return super().changelist_view(request, extra_context=context)
 
@@ -832,67 +936,71 @@ class SubscriptionLogAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-    
-    #To remove link on home page
+
+    # To remove link on home page
     def has_module_permission(self, request):
         return False
 
 
 class ProductAdmin(admin.ModelAdmin):
     formfield_overrides = {
-        models.CharField: {'widget': forms.TextInput(attrs={'size': '60'})},
+        models.CharField: {"widget": forms.TextInput(attrs={"size": "60"})},
     }
 
     list_display = [
-        'name',
-        'slug',
-        'type',
-        'brand',
+        "name",
+        "slug",
+        "type",
+        "brand",
     ]
 
     list_display_external_popup = [
-        'get_for_external_popup_name',
-        'slug',
-        'type',
-        'brand',
+        "get_for_external_popup_name",
+        "slug",
+        "type",
+        "brand",
     ]
 
-    list_filter = ['type', 'brand']
+    list_filter = ["type", "brand"]
 
-    ordering = ['slug',]
+    ordering = [
+        "slug",
+    ]
 
-    search_fields = ('slug',)
+    search_fields = ("slug",)
 
     add_fieldsets = (
-        (None, {
-            'fields': (
-                'name',
-                'slug',
-                'type',
-                'brand',
-                'subtypes',
-                'topics',
-            ),
-        }),
+        (
+            None,
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                    "type",
+                    "brand",
+                    "subtypes",
+                    "topics",
+                ),
+            },
+        ),
     )
     change_fieldsets = add_fieldsets + (
-        ('Reference', {
-            'fields': (
-                'csv_columns_html',
-                'sailthru_vars_html',
-            ),
-        }),
+        (
+            "Reference",
+            {
+                "fields": (
+                    "csv_columns_html",
+                    "sailthru_vars_html",
+                ),
+            },
+        ),
     )
 
     class Media:
         css = {
-            "all": (
-                "core/admin/css/product.css",
-            ),
+            "all": ("core/admin/css/product.css",),
         }
-        js = (
-            "core/admin/js/product.js",
-        )
+        js = ("core/admin/js/product.js",)
 
     def changelist_view(self, request, extra_context=None):
         context = {}
@@ -918,7 +1026,8 @@ class ProductAdmin(admin.ModelAdmin):
         return super().get_list_display_links(request, list_display)
 
     def get_for_external_popup_name(self, obj):
-        markup = format_html("""
+        markup = format_html(
+            """
             <button
                 class='for-external-popup-core-products-name'
                 data-name='{name}'
@@ -926,7 +1035,10 @@ class ProductAdmin(admin.ModelAdmin):
             >
               {name}
             </button>
-        """, slug=obj.slug, name=obj.name)
+        """,
+            slug=obj.slug,
+            name=obj.name,
+        )
 
         return mark_safe(markup)
 
@@ -936,16 +1048,18 @@ class ProductAdmin(admin.ModelAdmin):
             # we use those values to generate things like Sailthru var keys, and it
             # seems like it'd be really confusing if 'type' and/or 'slug' for a product
             # changed after corresponding Sailthru vars were out there in the wild
-            return (
-                self.readonly_fields +
-                ('type', 'slug', 'csv_columns_html', 'sailthru_vars_html',)
+            return self.readonly_fields + (
+                "type",
+                "slug",
+                "csv_columns_html",
+                "sailthru_vars_html",
             )
         return self.readonly_fields
 
     def is_external_popup(self, request):
         return (
-            request.GET.get("_popup", None) == "external" or
-            request.POST.get("_popup", None) == "external"
+            request.GET.get("_popup", None) == "external"
+            or request.POST.get("_popup", None) == "external"
         )
 
     def response_add(self, request, obj, post_url_continue=None):
@@ -960,8 +1074,15 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class VarKeyAdmin(admin.ModelAdmin):
-    list_display = ['key', 'type', 'sync_with_sailthru',]
-    list_filter = ['type', 'sync_with_sailthru',]
+    list_display = [
+        "key",
+        "type",
+        "sync_with_sailthru",
+    ]
+    list_filter = [
+        "type",
+        "sync_with_sailthru",
+    ]
 
 
 admin.site.register(m.AudienceUser, AudienceUserAdmin)

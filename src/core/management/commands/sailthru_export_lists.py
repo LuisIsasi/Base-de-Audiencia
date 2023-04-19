@@ -16,9 +16,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "--email",
-            nargs="*",
-            help="Destination address(es) for .csv export"
+            "--email", nargs="*", help="Destination address(es) for .csv export"
         )
 
     def get_lists(self):
@@ -41,8 +39,15 @@ class Command(BaseCommand):
             print(e)
 
     def create_csv(self):
-        with open(self.output_file, 'w') as csvfile:
-            fieldnames = ['name', 'list_id', 'type', 'email_count', 'valid_count', 'create_time']
+        with open(self.output_file, "w") as csvfile:
+            fieldnames = [
+                "name",
+                "list_id",
+                "type",
+                "email_count",
+                "valid_count",
+                "create_time",
+            ]
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
             writer.writeheader()
@@ -50,7 +55,9 @@ class Command(BaseCommand):
             for row in self.sailthru_lists:
                 # convert datetime column
                 try:
-                    row['create_time'] = datetime.strptime(row['create_time'], "%a, %d %b %Y %H:%M:%S %z")
+                    row["create_time"] = datetime.strptime(
+                        row["create_time"], "%a, %d %b %Y %H:%M:%S %z"
+                    )
                 except:
                     pass
 
@@ -61,7 +68,7 @@ class Command(BaseCommand):
             "Sailthru Lists",
             "Sailthru Lists attached as .csv file.",
             "noreply@govexec.com",
-            recipients
+            recipients,
         )
         email.attach_file(self.output_file, "text/csv")
         email.send()

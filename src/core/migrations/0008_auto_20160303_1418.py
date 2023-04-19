@@ -8,24 +8,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0007_auto_20160223_1731'),
+        ("core", "0007_auto_20160223_1731"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='EmailChangeAudienceUser',
-            fields=[
-            ],
+            name="EmailChangeAudienceUser",
+            fields=[],
             options={
-                'proxy': True,
-                'verbose_name_plural': 'users - change emails',
-                'verbose_name': 'user email',
+                "proxy": True,
+                "verbose_name_plural": "users - change emails",
+                "verbose_name": "user email",
             },
-            bases=('core.audienceuser',),
+            bases=("core.audienceuser",),
         ),
         migrations.AlterField(
-            model_name='audienceuser',
-            name='omeda_id',
-            field=models.CharField(blank=True, max_length=255, null=True, verbose_name='Omeda ID'),
+            model_name="audienceuser",
+            name="omeda_id",
+            field=models.CharField(
+                blank=True, max_length=255, null=True, verbose_name="Omeda ID"
+            ),
         ),
     ]
