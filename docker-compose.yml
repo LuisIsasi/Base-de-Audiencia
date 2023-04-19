@@ -6,7 +6,7 @@ services:
         volumes:
           - "db:/var/lib/postgresql/data"
         ports:
-            - "5432:5432"
+            - "5434:5434"
         environment:
             - POSTGRES_DB=audb
             - POSTGRES_USER=audb

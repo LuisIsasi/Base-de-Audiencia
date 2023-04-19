@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-sudo mkdir /home/vagrant/lib
-sudo mkdir /home/vagrant/run
-sudo chown -R vagrant:vagrant /home/vagrant
-sudo mkdir /var/log/celery
