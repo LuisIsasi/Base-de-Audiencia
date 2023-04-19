@@ -8,13 +8,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0020_auto_20221220_1151'),
+        ("core", "0020_auto_20221220_1151"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='brand',
-            field=models.CharField(choices=[('Defense One', 'Defense One'), ('Govexec', 'Govexec'), ('Nextgov', 'Nextgov'), ('Route Fifty', 'Route Fifty'), ('Federal Soup', 'Federal Soup'), ('FCW', 'FCW'), ('Washington Technology', 'Washington Technology'), ('GCN', 'GCN'), ('Defense Systems', 'Defense Systems'), ('GMarkU', 'GMarkU'), ('Military Periscope', 'Military Periscope'), ('Forecast International', 'Forecast International'), ('The Atlas Market Edge', 'The Atlas Market Edge')], max_length=255),
+            model_name="product",
+            name="brand",
+            field=models.CharField(
+                choices=[
+                    ("Defense One", "Defense One"),
+                    ("Govexec", "Govexec"),
+                    ("Nextgov", "Nextgov"),
+                    ("Route Fifty", "Route Fifty"),
+                    ("Federal Soup", "Federal Soup"),
+                    ("FCW", "FCW"),
+                    ("Washington Technology", "Washington Technology"),
+                    ("GCN", "GCN"),
+                    ("Defense Systems", "Defense Systems"),
+                    ("GMarkU", "GMarkU"),
+                    ("Military Periscope", "Military Periscope"),
+                    ("Forecast International", "Forecast International"),
+                    ("The Atlas Market Edge", "The Atlas Market Edge"),
+                ],
+                max_length=255,
+            ),
         ),
     ]

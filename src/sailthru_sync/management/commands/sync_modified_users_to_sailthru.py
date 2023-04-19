@@ -24,12 +24,12 @@ class Command(BaseCommand):
         # monkey-patch so that we do not lose the line-breaks in the help text
         parser.formatter_class = RawTextHelpFormatter
 
-        parser.add_argument('--start', type=str)
-        parser.add_argument('--end', type=str)
+        parser.add_argument("--start", type=str)
+        parser.add_argument("--end", type=str)
 
     def _parse_options(self, options):
-        start = options.get('start')
-        end = options.get('end')
+        start = options.get("start")
+        end = options.get("end")
 
         if not start or not end:
             raise CommandError("Must supply either '--start' and '--end' arguments.")
@@ -54,11 +54,10 @@ class Command(BaseCommand):
         qs = AudienceUser.objects.filter(modified__gt=start_date, modified__lt=end_date)
         qs_count = qs.count()
         self.stdout.write(
-            'Queuing Sailthru sync for {} user{} (users without email addresses will '
-            'be skipped) . . .'
-            .format(qs_count, 's' if qs_count != 1 else '')
+            "Queuing Sailthru sync for {} user{} (users without email addresses will "
+            "be skipped) . . .".format(qs_count, "s" if qs_count != 1 else "")
         )
         for user in qs:
             if user.email:
                 sync_user_basic.apply_async([user.pk])
-        self.stdout.write('. . . done queuing.')
+        self.stdout.write(". . . done queuing.")

@@ -13,7 +13,7 @@ class TestQuestionnaire(models.Model):
         verbose_name_plural = "test questionnaires"
 
     def get_absolute_url(self):
-        return reverse('example_tests:q-detail', args=[str(self.pk)])
+        return reverse("example_tests:q-detail", args=[str(self.pk)])
 
     def set_slug_from_name(self):
         self.slug = slugify(self.name)

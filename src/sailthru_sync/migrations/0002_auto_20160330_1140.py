@@ -9,7 +9,9 @@ from django.db import migrations
 def add_perms(apps, schema_editor):
     # Hacky way to ensure that permissions are added by this point. See:
     # https://code.djangoproject.com/ticket/23422
-    emit_post_migrate_signal(verbosity=0, interactive=False, db=schema_editor.connection.alias)
+    emit_post_migrate_signal(
+        verbosity=0, interactive=False, db=schema_editor.connection.alias
+    )
 
     Group = apps.get_model("auth", "Group")
     Permission = apps.get_model("auth", "Permission")
@@ -31,8 +33,8 @@ def remove_perms(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sailthru_sync', '0001_initial'),
-        ('core', '0008_auto_20160322_0908'),
+        ("sailthru_sync", "0001_initial"),
+        ("core", "0008_auto_20160322_0908"),
     ]
 
     operations = [

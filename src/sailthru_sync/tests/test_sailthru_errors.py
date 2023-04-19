@@ -6,9 +6,7 @@ from ..errors import SailthruErrors
 class SailthruErrorsTestCase(TestCase):
     def test_message(self):
         st_errors = SailthruErrors()
-        error_codes = [  # values that aren't a valid error code
-            0, None
-        ]
+        error_codes = [0, None]  # values that aren't a valid error code
         for error_code in error_codes:
             msg = st_errors.get_short_message(error_code)
             self.assertEqual(st_errors.SHORT_MESSAGE_ERROR_MSG.format(error_code), msg)

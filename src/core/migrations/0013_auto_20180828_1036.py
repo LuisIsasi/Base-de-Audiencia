@@ -8,23 +8,45 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0012_auto_20180814_1055'),
+        ("core", "0012_auto_20180814_1055"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='list',
-            name='no_unsubscribe',
-            field=models.BooleanField(default=False, help_text='Current behavior: setting this to true will exempt this list from auto-unsubscribes that occur when a user opts out of all emails (e.g. Optout Basic / Optout All).  Explicit unsubscribes will still take effect, but that may be changed in the future.'),
+            model_name="list",
+            name="no_unsubscribe",
+            field=models.BooleanField(
+                default=False,
+                help_text="Current behavior: setting this to true will exempt this list from auto-unsubscribes that occur when a user opts out of all emails (e.g. Optout Basic / Optout All).  Explicit unsubscribes will still take effect, but that may be changed in the future.",
+            ),
         ),
         migrations.AlterField(
-            model_name='audienceuser',
-            name='sailthru_optout',
-            field=models.CharField(choices=[('none', 'None'), ('all', 'Optout (All)'), ('basic', 'Optout (Basic)'), ('blast', 'Optout (Blast)')], max_length=40, null=True),
+            model_name="audienceuser",
+            name="sailthru_optout",
+            field=models.CharField(
+                choices=[
+                    ("none", "None"),
+                    ("all", "Optout (All)"),
+                    ("basic", "Optout (Basic)"),
+                    ("blast", "Optout (Blast)"),
+                ],
+                max_length=40,
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='optouthistory',
-            name='sailthru_optout',
-            field=models.CharField(blank=True, choices=[('none', 'None'), ('all', 'Optout (All)'), ('basic', 'Optout (Basic)'), ('blast', 'Optout (Blast)')], max_length=40, null=True),
+            model_name="optouthistory",
+            name="sailthru_optout",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("none", "None"),
+                    ("all", "Optout (All)"),
+                    ("basic", "Optout (Basic)"),
+                    ("blast", "Optout (Blast)"),
+                ],
+                max_length=40,
+                null=True,
+            ),
         ),
     ]

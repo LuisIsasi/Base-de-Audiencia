@@ -6,11 +6,15 @@ from django.dispatch import receiver
 from ...tasks import sync_user_basic
 
 
-@receiver(post_save, sender=core_models.AudienceUser, dispatch_uid='sailthru_sync::signals::audienceuser_post_save')
+@receiver(
+    post_save,
+    sender=core_models.AudienceUser,
+    dispatch_uid="sailthru_sync::signals::audienceuser_post_save",
+)
 def user_post_save(sender, **kwargs):
-    instance = kwargs['instance']
+    instance = kwargs["instance"]
 
-    if getattr(instance, '_sync_disabled', False):
+    if getattr(instance, "_sync_disabled", False):
         return
 
     if not instance.email:

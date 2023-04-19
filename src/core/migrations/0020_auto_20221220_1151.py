@@ -10,13 +10,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0019_auto_20211007_0717'),
+        ("core", "0019_auto_20211007_0717"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='brand',
-            field=models.CharField(choices=[(b'Defense One', b'Defense One'), (b'Govexec', b'Govexec'), (b'Nextgov', b'Nextgov'), (b'Route Fifty', b'Route Fifty'), (b'Federal Soup', b'Federal Soup'), (b'FCW', b'FCW'), (b'Washington Technology', b'Washington Technology'), (b'GCN', b'GCN'), (b'Defense Systems', b'Defense Systems'), (b'GMarkU', b'GMarkU'), (b'Military Periscope', b'Military Periscope'), (b'Forecast International', b'Forecast International'), (b'The Atlas Market Edge', b'The Atlas Market Edge')], max_length=255),
+            model_name="product",
+            name="brand",
+            field=models.CharField(
+                choices=[
+                    (b"Defense One", b"Defense One"),
+                    (b"Govexec", b"Govexec"),
+                    (b"Nextgov", b"Nextgov"),
+                    (b"Route Fifty", b"Route Fifty"),
+                    (b"Federal Soup", b"Federal Soup"),
+                    (b"FCW", b"FCW"),
+                    (b"Washington Technology", b"Washington Technology"),
+                    (b"GCN", b"GCN"),
+                    (b"Defense Systems", b"Defense Systems"),
+                    (b"GMarkU", b"GMarkU"),
+                    (b"Military Periscope", b"Military Periscope"),
+                    (b"Forecast International", b"Forecast International"),
+                    (b"The Atlas Market Edge", b"The Atlas Market Edge"),
+                ],
+                max_length=255,
+            ),
         ),
     ]

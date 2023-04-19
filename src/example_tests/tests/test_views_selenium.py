@@ -4,7 +4,6 @@ from selenium import webdriver
 
 
 class TestQuestionnaireSeleniumTestCase(StaticLiveServerTestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -29,4 +28,4 @@ class TestQuestionnaireSeleniumTestCase(StaticLiveServerTestCase):
         """
         selenium.get will wait until onload event has fired.
         """
-        self.selenium.find_element_by_class_name('test-js')
+        self.selenium.find_element_by_class_name("test-js")

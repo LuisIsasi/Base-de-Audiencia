@@ -9,22 +9,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0015_auto_20190322_0909'),
+        ("core", "0015_auto_20190322_0909"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='subscriptionlog',
+            name="subscriptionlog",
             options={},
         ),
         migrations.AlterField(
-            model_name='subscriptionlog',
-            name='timestamp',
+            model_name="subscriptionlog",
+            name="timestamp",
             field=models.DateTimeField(auto_now_add=True, db_index=True),
         ),
         migrations.AlterField(
-            model_name='usercontenthistory',
-            name='referrer',
+            model_name="usercontenthistory",
+            name="referrer",
             field=core.fields.ReferrerField(blank=True, max_length=500, null=True),
         ),
     ]

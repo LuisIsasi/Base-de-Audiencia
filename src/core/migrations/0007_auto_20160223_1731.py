@@ -8,13 +8,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0006_varkey_sync_with_sailthru'),
+        ("core", "0006_varkey_sync_with_sailthru"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='varkey',
-            name='sync_with_sailthru',
-            field=models.BooleanField(default=True, help_text='Sync this var with Sailthru; note that this will not have any retroactive effect if changing this flag on an existing var.'),
+            model_name="varkey",
+            name="sync_with_sailthru",
+            field=models.BooleanField(
+                default=True,
+                help_text="Sync this var with Sailthru; note that this will not have any retroactive effect if changing this flag on an existing var.",
+            ),
         ),
     ]

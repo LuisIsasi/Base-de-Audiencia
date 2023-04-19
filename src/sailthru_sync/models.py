@@ -60,7 +60,7 @@ class SyncFailure(SyncModel):
 
 class SyncFailureNotificationGroup(TimeStampedModel):
     INTERESTED_ERRORS = tuple(
-        (str(error_code), msg['short-msg'])
+        (str(error_code), msg["short-msg"])
         for error_code, msg in SailthruErrors.MESSAGES.items()
     )
 
@@ -72,8 +72,10 @@ class SyncFailureNotificationGroup(TimeStampedModel):
         blank=True,
         null=True,
     )
-    interested_group = models.ForeignKey('auth.Group', on_delete=models.CASCADE)
-    notification_task = models.ForeignKey('djcelery.PeriodicTask', null=True, blank=True, on_delete=models.SET_NULL)
+    interested_group = models.ForeignKey("auth.Group", on_delete=models.CASCADE)
+    notification_task = models.ForeignKey(
+        "djcelery.PeriodicTask", null=True, blank=True, on_delete=models.SET_NULL
+    )
 
     def __str__(self):
         return "{}-{}".format(self.interested_group, self.notification_task)
@@ -87,7 +89,7 @@ class SyncLock(SyncModel):
     objects = SyncLockManager()
 
     class Meta:
-        unique_together = ('content_type', 'object_id')
+        unique_together = ("content_type", "object_id")
 
     @property
     def age(self):

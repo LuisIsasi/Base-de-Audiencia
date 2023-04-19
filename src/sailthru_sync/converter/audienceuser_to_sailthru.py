@@ -11,22 +11,19 @@ class AudienceUserToSailthru(object):
     source_signup_date_format = "%Y-%m-%d %H:%M"
 
     complex_fields = [
-        'procurement_subject',
+        "procurement_subject",
     ]
 
     def __init__(self, user):
         self.user = user
-        self.vars_to_sync = (
-            core_models.VarKey.objects
-            .filter(
-                key__in=self.user.vars.keys(),
-                sync_with_sailthru=True
-            )
-            .values_list("key", flat=True)
-        )
+        self.vars_to_sync = core_models.VarKey.objects.filter(
+            key__in=self.user.vars.keys(), sync_with_sailthru=True
+        ).values_list("key", flat=True)
 
     def __str__(self):
-        return "<{} converter for audience user: {}>".format(self.__class__.__name__, self.user)
+        return "<{} converter for audience user: {}>".format(
+            self.__class__.__name__, self.user
+        )
 
     def get_one_to_one_fields(self):
         data = {}
@@ -37,10 +34,10 @@ class AudienceUserToSailthru(object):
 
     def get_name(self):
         name = HumanName()
-        if 'first_name' in self.vars_to_sync:
-            name.first = self.user.vars['first_name']
-        if 'last_name' in self.vars_to_sync:
-            name.last = self.user.vars['last_name']
+        if "first_name" in self.vars_to_sync:
+            name.first = self.user.vars["first_name"]
+        if "last_name" in self.vars_to_sync:
+            name.last = self.user.vars["last_name"]
         return str(name)
 
     def get_source(self):
@@ -57,10 +54,7 @@ class AudienceUserToSailthru(object):
         return None
 
     def get_sources(self):
-        signups = {
-            signup.name
-            for signup in self.user.source_signups.all()
-        }
+        signups = {signup.name for signup in self.user.source_signups.all()}
         return sorted(list(signups)) or 0
 
     def get_email_domain(self):
@@ -71,7 +65,7 @@ class AudienceUserToSailthru(object):
 
     def get_procurement_subject(self):
         subject = self.user.vars.get("procurement_subject", "")
-        return ",".join(subject.split('::'))
+        return ",".join(subject.split("::"))
 
     def get_modified_time(self):
         return int(self.user.modified.timestamp())
@@ -113,17 +107,27 @@ class AudienceUserToSailthru(object):
             consumed_product_var = product_var.format(product_type, consumed_verb)
             registered_product_var = product_var.format(product_type, registered_verb)
 
-            data[consumed_product_var] = sorted([
-                action.product.slug
-                for action in consumed_actions
-                if action.product.type == product_type
-            ]) or 0
+            data[consumed_product_var] = (
+                sorted(
+                    [
+                        action.product.slug
+                        for action in consumed_actions
+                        if action.product.type == product_type
+                    ]
+                )
+                or 0
+            )
 
-            data[registered_product_var] = sorted([
-                action.product.slug
-                for action in registered_actions
-                if action.product.type == product_type
-            ]) or 0
+            data[registered_product_var] = (
+                sorted(
+                    [
+                        action.product.slug
+                        for action in registered_actions
+                        if action.product.type == product_type
+                    ]
+                )
+                or 0
+            )
 
         return data
 
@@ -147,18 +151,19 @@ class AudienceUserToSailthru(object):
 
     def get_product_vars(self):
         data = {}
-        product_actions = (
-            self.user
-            .product_actions
-            .prefetch_related("product__topics")
-            .all()
-        )
+        product_actions = self.user.product_actions.prefetch_related(
+            "product__topics"
+        ).all()
 
-        registered_actions = [pa for pa in product_actions if pa.type == 'registered']
-        consumed_actions = [pa for pa in product_actions if pa.type == 'consumed']
+        registered_actions = [pa for pa in product_actions if pa.type == "registered"]
+        consumed_actions = [pa for pa in product_actions if pa.type == "consumed"]
 
         data.update(self._get_aggregated_topic_product_vars(product_actions))
-        data.update(self._get_aggregated_action_product_vars(registered_actions, consumed_actions))
+        data.update(
+            self._get_aggregated_action_product_vars(
+                registered_actions, consumed_actions
+            )
+        )
         data.update(self._get_action_product_vars(registered_actions, consumed_actions))
 
         return data
@@ -170,8 +175,8 @@ class AudienceUserToSailthru(object):
         somewhere else.
         """
         data = {
-            'keys': 1,
-            'optout_email': 1,
+            "keys": 1,
+            "optout_email": 1,
         }
         return data
 
@@ -179,36 +184,40 @@ class AudienceUserToSailthru(object):
         if not self.user.email:
             raise ConversionError("Email is required for conversion")
 
-        data = dict((
-            ('id', self.user.email),
-            ('key', 'email'),
-            ('lists', self.get_list_subscriptions()),
-            ('fields', self.get_fields()),
-        ))
+        data = dict(
+            (
+                ("id", self.user.email),
+                ("key", "email"),
+                ("lists", self.get_list_subscriptions()),
+                ("fields", self.get_fields()),
+            )
+        )
 
         if self.user.sailthru_optout:
-            data['optout_email'] = self.user.sailthru_optout
+            data["optout_email"] = self.user.sailthru_optout
 
-        data['vars'] = dict((
-            ('email_domain', self.get_email_domain()),
-            ('audb_last_modified_time', self.get_modified_time()),
-            ('last_synced_time', self.get_sync_time()),
-            ('sources', self.get_sources()),
-        ))
+        data["vars"] = dict(
+            (
+                ("email_domain", self.get_email_domain()),
+                ("audb_last_modified_time", self.get_modified_time()),
+                ("last_synced_time", self.get_sync_time()),
+                ("sources", self.get_sources()),
+            )
+        )
 
-        if {'first_name', 'last_name'} & set(self.vars_to_sync):
-            data['vars']['name'] = self.get_name()
+        if {"first_name", "last_name"} & set(self.vars_to_sync):
+            data["vars"]["name"] = self.get_name()
 
-        if 'procurement_subject' in self.vars_to_sync:
-            data['vars']['procurement_subject'] = self.get_procurement_subject()
+        if "procurement_subject" in self.vars_to_sync:
+            data["vars"]["procurement_subject"] = self.get_procurement_subject()
 
         source = self.get_source()
         if source is not None:
-            data['vars']['source'] = source
-            data['vars']['source_signup_date'] = self.get_source_signup_date()
+            data["vars"]["source"] = source
+            data["vars"]["source_signup_date"] = self.get_source_signup_date()
 
-        data['vars'].update(self.get_one_to_one_fields())
-        data['vars'].update(self.get_var_subscriptions())
-        data['vars'].update(self.get_product_vars())
+        data["vars"].update(self.get_one_to_one_fields())
+        data["vars"].update(self.get_var_subscriptions())
+        data["vars"].update(self.get_product_vars())
 
         return data

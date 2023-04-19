@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0017_auto_20200903_0331'),
+        ("core", "0017_auto_20200903_0331"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='subscriptionlog',
-            name='timestamp',
+            model_name="subscriptionlog",
+            name="timestamp",
             field=models.DateTimeField(auto_now_add=True, db_index=True),
         ),
     ]

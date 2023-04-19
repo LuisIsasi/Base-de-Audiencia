@@ -3,9 +3,8 @@ from model_mommy import mommy
 
 
 class UserVarHistoryTestCase(TestCase):
-
     def test_vars_history_creation(self):
-        au = mommy.make('core.Audienceuser')
+        au = mommy.make("core.Audienceuser")
         au.validate_and_save()
 
         history = au.vars_history.all()
@@ -15,7 +14,7 @@ class UserVarHistoryTestCase(TestCase):
         history = au.vars_history.all()
         self.assertEqual(len(history), 1)
 
-        au.vars = {'test': 'value'}
+        au.vars = {"test": "value"}
         au.validate_and_save()
 
         history = au.vars_history.all()

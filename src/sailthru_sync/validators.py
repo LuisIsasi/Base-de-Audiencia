@@ -7,20 +7,20 @@ from core import models as core_models
 
 def reserved_words_validator(value):
     reserved_words = {
-        'email_domain',
-        'external_source',
-        'modified_time',
-        'name',
-        'product_topics',
-        'source',
-        'source_signup_date',
-        'sources',
+        "email_domain",
+        "external_source",
+        "modified_time",
+        "name",
+        "product_topics",
+        "source",
+        "source_signup_date",
+        "sources",
     }
     reserved_prefixes = chain(
-        [x + r'_' for x, _ in core_models.List.LIST_TYPE_CHOICES],
-        [x + r's_' for x, _ in core_models.List.LIST_TYPE_CHOICES],
-        [x + r's_' for x, _ in core_models.Product.PRODUCT_TYPE_CHOICES],
-        [x + r'_' for x, _ in core_models.Product.PRODUCT_TYPE_CHOICES],
+        [x + r"_" for x, _ in core_models.List.LIST_TYPE_CHOICES],
+        [x + r"s_" for x, _ in core_models.List.LIST_TYPE_CHOICES],
+        [x + r"s_" for x, _ in core_models.Product.PRODUCT_TYPE_CHOICES],
+        [x + r"_" for x, _ in core_models.Product.PRODUCT_TYPE_CHOICES],
     )
 
     reserved_word_msg = "{} is invalid because it matches a reserved word."
