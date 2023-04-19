@@ -4,25 +4,47 @@ on: pull_request
 
 jobs:
   run-tests:
-    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
       - name: 'Checkout Github Action'
         uses: actions/checkout@v2
 
-      - name: 'Initialize Codebase'
-        run: make init
-
       - name: 'Build `docker-compose` Environment'
-        run: docker-compose up -d redis audb_web db
+        run: | 
+          cp .env.example .env
+          docker-compose up -d
 
       - name: 'Check Running Containers'
         run: docker ps -a
 
-      - name: Sleep for 10 seconds (To make sure `db` is ready)
-        run: sleep 10s
-        shell: bash
+      - name: 'Run Python Unit Tests'
+        run: docker exec base-de-audencia_web_1 python src/manage.py test
 
-      - name: 'Run Django Unit Tests'
-        run: make test-run
+  run-linter:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: Check for Modified Python Files
+        run: echo "gemg_py_diff=$(git diff --name-only --diff-filter=ACMRTUXB origin/$GITHUB_BASE_REF | grep  -E "(.py$)" | tr "\n" " ")" >> $GITHUB_ENV
+
+      - name: Setup Python Linter
+        if: ${{ env.gemg_py_diff != '' }}
+        run: |
+          python3 -m pip install -r linter.txt
+
+      - name: Run Black - Confirm files have been formatted using Black
+        if: ${{ env.gemg_py_diff != '' }}
+        run: python3 -m black ${{env.gemg_py_diff}} --check
+
+      - name: Run Python Linter
+        if: ${{ env.gemg_py_diff != '' }}
+        run: python3 -m flake8 ${{env.gemg_py_diff}} --ignore=E501,F405,W503
