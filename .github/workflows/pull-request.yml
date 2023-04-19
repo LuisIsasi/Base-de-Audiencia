@@ -12,7 +12,6 @@ jobs:
 
       - name: 'Build `docker-compose` Environment'
         run: | 
-          cp .env.example .env
           docker-compose up -d
 
       - name: 'Check Running Containers'
